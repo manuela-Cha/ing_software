@@ -1,0 +1,2 @@
+from intfz_grafica.registrar_empleado_gui import manejar_agregar_empleado
+manejar_agregar_empleado()
