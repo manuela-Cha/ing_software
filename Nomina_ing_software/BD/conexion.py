@@ -18,7 +18,7 @@ def conectar():
         print(f"Error al conectar a la base de datos: {e}")
         return None
 
-def registrar_empleado(nombre, apellido, num_pedidos):
+def registrar_empleado(nombre, apellido, edad):
     "Inserta un empleado en la tabla 'empleados'."
     conexion = conectar()
     if conexion:
@@ -28,7 +28,7 @@ def registrar_empleado(nombre, apellido, num_pedidos):
             INSERT INTO usuarios_registrados (nombre, apellido, edad)
             VALUES (%s, %s, %s)
             """
-            valores = (nombre, apellido, num_pedidos)
+            valores = (nombre, apellido, edad)
             cursor.execute(consulta, valores)
             conexion.commit()  # Confirma la inserción
             print("Empleado agregado exitosamente.")
@@ -42,20 +42,25 @@ def registrar_empleado(nombre, apellido, num_pedidos):
                 conexion.close()
                 print("Conexión cerrada.")
 
-def eliminar_registro_empleado(id):
-    "Elimina un empleado en la tabla de empleados"
+def eliminar_empleado_registrado(nombre, apellido, edad):
+    """Elimina un empleado en la tabla 'usuarios_registrados'."""
     conexion = conectar()
     if conexion:
         try:
             cursor = conexion.cursor()
             consulta = """
-            DELETE FROM usuarios_registrados WHERE id == (id)
-            VALUES (%s)
+            DELETE FROM usuarios_registrados 
+            WHERE nombre = %s AND apellido = %s AND edad = %s
             """
-            valores = (id)
+            valores = (nombre.strip(), apellido.strip(), edad)
+            
+            # Construir y mostrar la consulta completa para depuración
+            consulta_completa = consulta % tuple(map(repr, valores))
+            print("Consulta SQL ejecutada:", consulta_completa)
+
             cursor.execute(consulta, valores)
-            conexion.commit()  # Confirma la inserción
-            print("Empleado agregado exitosamente.")
+            conexion.commit()  # Confirma la eliminación
+            print("Empleado eliminado exitosamente.")
 
         except Error as e:
             print(f"Error al eliminar el empleado: {e}")
@@ -65,4 +70,7 @@ def eliminar_registro_empleado(id):
                 cursor.close()
                 conexion.close()
                 print("Conexión cerrada.")
+
+
+
 

@@ -1,2 +1,5 @@
-from intfz_grafica.registrar_empleado_gui import manejar_agregar_empleado
-manejar_agregar_empleado()
+from intfz_grafica.eliminar_empleado_gui import manejar_eliminar_empleado
+from intfz_grafica.registrar_empleado_gui import *
+
+#manejar_agregar_empleado()
+manejar_eliminar_empleado()
