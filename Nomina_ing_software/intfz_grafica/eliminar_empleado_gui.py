@@ -1,58 +1,55 @@
 import tkinter as tk
 from tkinter import messagebox
-from BD import conexion
-#from BD import conexion as conexion
-#from intfz_grafica import registrar_empleado_gui
-#from Nomina_ing_software.BD import conexion
-#import Nomina_ing_software.BD.conexion as conexion
-#import conexion
-#from BD import conexion
-#from ..BD import conexion
+from BD.Eliminar_empleado import Eliminar_empleado
+from BD.conexion import Conectar 
 
+class Eliminar_empleado_GUI:
+    def __init__(self):
+        # Creación de la ventana principal
+        self.ventana = tk.Tk()
+        self.ventana.title("Eliminar Empleado")
+        self.ventana.geometry("500x500")
 
-# Función para manejar el evento del botón
-def manejar_eliminar_empleado():
-    nombre = entry_nombre.get().strip()
-    apellido = entry_apellido.get().strip()
-    edad = entry_nombre.get().strip()
-    
-    
-    # Validar que los campos no estén vacíos
-    if not nombre or not apellido or not entry_edad.get().strip():
-        messagebox.showerror("Error", "Todos los campos son obligatorios.")
-        return
+        # Etiquetas y campos de entrada
+        tk.Label(self.ventana, text="Nombre:").pack(pady=5)
+        self.entry_nombre = tk.Entry(self.ventana, width=30)
+        self.entry_nombre.pack(pady=5)
 
-    try:
-        edad = int(entry_edad.get().strip())  # Convertir a entero
-    except ValueError:
-        messagebox.showerror("Error", "La edad debe ser un número entero.")
-        return
+        tk.Label(self.ventana, text="Apellido:").pack(pady=5)
+        self.entry_apellido = tk.Entry(self.ventana, width=30)
+        self.entry_apellido.pack(pady=5)
 
-    # Llamar a la función de agregar empleado
-    conexion.eliminar_empleado_registrado(nombre, apellido, edad)
-    messagebox.showinfo("Éxito", "Empleado eliminado correctamente.")
+        tk.Label(self.ventana, text="Cedula:").pack(pady=5)
+        self.entry_cedula = tk.Entry(self.ventana, width=30)
+        self.entry_cedula.pack(pady=5)
 
-# Creación de la ventana principal
-ventana = tk.Tk()
-ventana.title("Eliminar Empleado")
-ventana.geometry("400x300")
+        # Botón para eliminar empleado
+        self.boton_eliminar = tk.Button(
+            self.ventana, text="Eliminar Empleado",
+            command=self.eliminar_empleado
+        )
+        self.boton_eliminar.pack(pady=20)
 
-# Etiquetas y campos de entrada
-tk.Label(ventana, text="Nombre:").pack(pady=5)
-entry_nombre = tk.Entry(ventana, width=30)
-entry_nombre.pack(pady=5)
+        # Iniciar el bucle de la interfaz gráfica
+        self.ventana.mainloop()
 
-tk.Label(ventana, text="Apellido:").pack(pady=5)
-entry_apellido = tk.Entry(ventana, width=30)
-entry_apellido.pack(pady=5)
+    # Función para manejar el evento del botón
+    def eliminar_empleado(self):
+        nombre = self.entry_nombre.get().strip()
+        apellido = self.entry_apellido.get().strip()
+        cedula = self.entry_cedula.get().strip()
 
-tk.Label(ventana, text="Edad:").pack(pady=5)
-entry_edad = tk.Entry(ventana, width=30)
-entry_edad.pack(pady=5)
+        # Validar que los campos no estén vacíos
+        if not nombre or not apellido or not cedula:
+            messagebox.showerror("Error", "Todos los campos son obligatorios.")
+            return
 
-# Botón para agregar empleado
-boton_agregar = tk.Button(ventana, text="Eliminar Empleado", command=manejar_eliminar_empleado)
-boton_agregar.pack(pady=20)
-
-# Iniciar el bucle de la interfaz gráfica
-ventana.mainloop()
+        # Verificar si el empleado existe antes de eliminar
+        if self.verificar_existencia(nombre, apellido, cedula):
+            try:
+                Eliminar_empleado.eliminar_empleado(nombre, apellido, cedula)
+                messagebox.showinfo("Éxito", "Empleado eliminado correctamente.")
+            except Exception as e:
+                messagebox.showerror("Error", f"Hubo un error al eliminar el empleado: {e}")
+        else:
+            messagebox.showerror("Error", "El empleado no existe en la base de datos.")
