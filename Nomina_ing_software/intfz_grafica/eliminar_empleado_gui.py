@@ -1,4 +1,4 @@
-import tkinter as tk
+"""import tkinter as tk
 from tkinter import messagebox
 from BD.Eliminar_empleado import Eliminar_empleado
 from BD.conexion import Conectar 
@@ -52,4 +52,4 @@ class Eliminar_empleado_GUI:
             except Exception as e:
                 messagebox.showerror("Error", f"Hubo un error al eliminar el empleado: {e}")
         else:
-            messagebox.showerror("Error", "El empleado no existe en la base de datos.")
+            messagebox.showerror("Error", "El empleado no existe en la base de datos.")"""

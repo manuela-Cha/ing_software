@@ -1,9 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
-from BD.Agregar_empleado import Agregar_empleado
+import subprocess
+import os
+from Nomina_ing_software.funcionalidades.Agregar_empleado import Agregar_empleado
 
 class Registrar_empleado_GUI:
     def __init__(self):
+        # Iniciar la API Flask
+        self.iniciar_api()
+
         # Creación de la ventana principal
         self.ventana = tk.Tk()
         self.ventana.title("Agregar Empleado")
@@ -40,19 +45,33 @@ class Registrar_empleado_GUI:
         # Iniciar el bucle de la interfaz gráfica
         self.ventana.mainloop()
 
-    def registrar_empleado(self):
-        nombre = self.entry_nombre.get().strip()
-        apellido = self.entry_apellido.get().strip()
-        cedula = self.entry_cedula.get().strip()
-        turno = self.entry_turno.get().strip()
-        ruta_asignada = self.entry_ruta_asignada.get().strip()
+    def iniciar_api(self):
+        """Inicia la API Flask."""
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        api_path = os.path.join(script_dir, "..", "api", "app.py")
 
-        if not nombre or not apellido or not cedula or not turno or not ruta_asignada:
-            messagebox.showerror("Error", "Todos los campos son obligatorios.")
+        if not os.path.isfile(api_path):
+            messagebox.showerror("Error", f"No se encontró la API en: {api_path}")
             return
 
         try:
-            Agregar_empleado.registrar_empleado(nombre, apellido, cedula, turno, ruta_asignada)
-            messagebox.showinfo("Éxito", "Empleado agregado correctamente.")
+            subprocess.Popen(["python", api_path])
+            print("Iniciando API Flask...")
         except Exception as e:
-            messagebox.showerror("Error", f"Hubo un error al agregar el empleado: {e}")
+            messagebox.showerror("Error", f"No se pudo iniciar la API Flask: {e}")
+
+    def registrar_empleado(self):
+        try:
+            Agregar_empleado.registrar_empleado(
+                self.entry_nombre.get().strip(),
+                self.entry_apellido.get().strip(),
+                self.entry_cedula.get().strip(),
+                self.entry_turno.get().strip(),
+                self.entry_ruta_asignada.get().strip()
+            )
+            messagebox.showinfo("Éxito", "Empleado agregado correctamente")
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al agregar empleado: {e}")
+
+if __name__ == "__main__":
+    Registrar_empleado_GUI()

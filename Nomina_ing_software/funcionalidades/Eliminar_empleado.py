@@ -1,18 +1,18 @@
-from mysql.connector import Error
-from BD.conexion import Conectar
+"""from mysql.connector import Error
+"from BD.conexion import Conectar"
 
 class Eliminar_empleado:
     @staticmethod
     def verificar_existencia(nombre, apellido, cedula):
-        """Verifica si el empleado existe en la base de datos antes de eliminarlo."""
+        "Verifica si el empleado existe en la base de datos antes de eliminarlo."
         conexion = Conectar.conectar()
         if conexion:
             try:
                 cursor = conexion.cursor()
-                consulta = """
+                consulta = "
                 SELECT COUNT(*) FROM usuarios_registrados 
                 WHERE nombre = %s AND apellido = %s AND cedula = %s
-                """
+                "
                 cursor.execute(consulta, (nombre.strip(), apellido.strip(), cedula.strip()))
                 resultado = cursor.fetchone()
                 cursor.close()
@@ -26,15 +26,15 @@ class Eliminar_empleado:
 
     @staticmethod
     def eliminar_empleado(nombre, apellido, cedula):
-        """Elimina un empleado en la tabla 'usuarios_registrados'."""
+        "Elimina un empleado en la tabla 'usuarios_registrados'."
         conexion = Conectar.conectar()
         if conexion:
             try:
                 cursor = conexion.cursor()
-                consulta = """
+                consulta = "
                 DELETE FROM usuarios_registrados 
                 WHERE nombre = %s AND apellido = %s AND cedula = %s
-                """
+                "
                 valores = (nombre.strip(), apellido.strip(), cedula.strip())
 
                 if not Eliminar_empleado.verificar_existencia(nombre, apellido, cedula):
@@ -53,3 +53,4 @@ class Eliminar_empleado:
                     cursor.close()
                     conexion.close()
                     print("Conexión cerrada.")
+"""
