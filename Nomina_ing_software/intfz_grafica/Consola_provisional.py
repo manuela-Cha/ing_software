@@ -16,13 +16,11 @@ class Consola():
 
             while True: 
                     print("\nSeleccione la acción que desee realizar:")
-                    print("1) Registrar empleado") #Lista
-                    print("2) Formar grupos") #Lista - falta probar
-                    print("3) Asignar rutas a un grupo")
-                    print("4) Actualizar estado de un vehiculo")
-                    print("5) consultar estado solicitudes")
-                    print("6) solicitar eliminar equipo")
-                    print("7) Salir")
+                    print("1) Registrar Nuevo empleado") #Lista
+                    print("2) Formar grupo") #Lista
+                    print("3) Eliminar empleado") #LISTA
+                    print("4) Registrar Nuevo vehiculo") #
+                    print("5) Salir")
                     
                     try:
                         respuesta = input("Ingrese el número de la acción deseada: ")
@@ -31,15 +29,11 @@ class Consola():
                         elif respuesta == "2":
                             Carga.crear_grupo() 
                         elif respuesta == "3":
-                            investigador.escribir_inventario_en_txt() 
+                            Carga.eliminar_empleado() 
                         elif respuesta == "4":
-                            investigador.escribir_solicitudes_en_txt() 
+                            Carga.crear_nuevo_vehiculo()
                         elif respuesta == "5":
-                            investigador.consultar_estado_solicitudes() 
-                        elif respuesta == "6":
-                            investigador.solicitar_eliminar_equipo()
-                        elif respuesta == "7":
-                            print("Saliendo del menú de investigador...")
+                            print("Saliendo del menú...")
                             break  
                         else:
                             print("Opción no válida.")

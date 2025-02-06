@@ -11,9 +11,7 @@ Carga.carga_rutas_existentes()
 Carga.carga_admins_existentes()
 Carga.carga_grupos_existentes()
 
-Carga.crear_grupo()
-
 #print(Carga.lista_grupos)
 
-"""consola = Consola()
-consola.validacion()"""
+consola = Consola()
+consola.inicio()
