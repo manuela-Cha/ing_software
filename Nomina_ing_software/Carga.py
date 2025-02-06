@@ -20,6 +20,7 @@ class Carga:
         except FileNotFoundError as e:
             print(f"Error: {e}")
 
+    @staticmethod
     def carga_vehiculos_existentes(cls):
         try:
             with open("Nomina_ing_software/Vehiculos.txt", 'rb') as file:
@@ -31,6 +32,7 @@ class Carga:
         except FileNotFoundError as e:
             print(f"Error: {e}")
 
+    @staticmethod
     def carga_rutas_existentes(cls):
         try:
             with open("Nomina_ing_software/Rutas.txt", 'rb') as file:
@@ -41,3 +43,35 @@ class Carga:
                     Carga.lista_rutas.append(obj)
         except FileNotFoundError as e:
             print(f"Error: {e}")
+    
+    @staticmethod
+    def crear_nuevo_empleado():
+        print("Ingrese los datos del empleado: ")
+        nombre = input("Nombre: ")
+        apellido = input("Apellido: ")
+        cedula = input("Cedula: ")
+        empleado = Gestion.cargar_empleado(nombre, apellido, cedula)
+
+        try:
+            with open("Nomina_ing_software/Empleados.txt", "a") as file:
+                file.write("{} {} {}\n".format(nombre, apellido, cedula)) 
+                Carga.carga_empleados_existentes
+        except:
+            print("No se pudo escribir en Empleados")
+        return empleado
+    
+    @staticmethod
+    def crear_nuevo_vehiculo():
+        print("Ingrese los datos del vehiculo: ")
+
+        id_vehiculo = input("Id del vehiculo: ")
+        vehiculo = Gestion.cargar_vehiculo(id_vehiculo)
+        return vehiculo
+    
+    @staticmethod
+    def crear_nueva_ruta():
+        print("Ingrese la ruta: ")
+
+        ruta_str = input("ruta: ")
+        ruta = Gestion.cargar_ruta(ruta_str)
+        return ruta
