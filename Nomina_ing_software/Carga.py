@@ -52,7 +52,7 @@ class Carga:
         except FileNotFoundError as e:
             print(f"Error: {e}")
 
-    @classmethod
+    """@classmethod
     def carga_grupos_existentes(cls):
         try:
             with open("Nomina_ing_software/archivos_de_texto/Grupos.txt", 'rb') as file:
@@ -61,23 +61,43 @@ class Carga:
                     obj = Gestion.cargar_grupo(datos[0], datos[1], datos[2], datos[3:])
                     Carga.lista_grupos.append(obj)
         except FileNotFoundError as e:
-            print(f"Error: {e}")
+            print(f"Error: {e}")"""
         
     @staticmethod
     def crear_nuevo_empleado():
         print("Ingrese los datos del empleado: ")
-        nombre = input("Nombre: ")
-        apellido = input("Apellido: ")
-        cedula = input("Cedula: ")
+        nombre = input("Nombre: ").strip()
+        apellido = input("Apellido: ").strip()
+        cedula = input("Cédula: ").strip()
+
+        if not nombre or not apellido or not cedula:
+            print("Error: Todos los campos deben estar llenos.")
+            return None
+
+        ruta_archivo = "Nomina_ing_software/archivos_de_texto/Empleados.txt"
+        
+        try:
+            with open(ruta_archivo, "r") as file:
+                for linea in file:
+                    if linea.strip().endswith(cedula):
+                        print(f"Ya existe un empleado con la cédula {cedula}.")
+                        return None
+        except FileNotFoundError:
+            print("No se encontró el archivo. Se creará uno nuevo al agregar el empleado.")
+
         empleado = Gestion.cargar_empleado(nombre, apellido, cedula)
 
         try:
-            with open("Nomina_ing_software/archivos_de_texto/Empleados.txt", "a") as file:
-                file.write("{} {} {}\n".format(nombre, apellido, cedula)) 
-                Carga.carga_empleados_existentes
-        except:
-            print("No se pudo escribir en Empleados")
+            with open(ruta_archivo, "a") as file:
+                file.write(f"{nombre} {apellido} {cedula}\n")
+            Carga.carga_empleados_existentes()
+            print("Empleado agregado exitosamente.")
+        except Exception as e:
+            print("No se pudo escribir en Empleados:", e)
+        
         return empleado
+
+
     
     @staticmethod
     def crear_nuevo_vehiculo():
@@ -111,7 +131,7 @@ class Carga:
         anio = input("Ingrese el año actual: ")
 
         integrantes = []
-        for i in range(4):
+        for i in range(3):
             cedula = input(f"Ingrese cédula del integrante {i+1}: ")
             integrantes.append(cedula)
 
@@ -126,10 +146,10 @@ class Carga:
 
         vehiculo = next((v for v in Carga.lista_vehiculos if v.id_vehiculo == vehiculo_id and v.estado == "Disponible"), None)
 
-        if len(empleados_validos) == 4 and vehiculo:
+        if len(empleados_validos) == 3 and vehiculo:
             try:
                 with open("Nomina_ing_software/archivos_de_texto/Grupos.txt", "a") as file:
-                    file.write(f"{dia} {mes} {anio} {' '.join(integrantes)} {vehiculo_id}\n")
+                    file.write(f"{dia} {mes} {anio} {' '.join(integrantes)} {vehiculo_id} {vehiculo.estado}\n")
 
                 for empleado in empleados_validos:
                     empleado.estado = "Ocupado"
@@ -174,7 +194,90 @@ class Carga:
         except Exception as e:
             print(f"Ocurrió un error: {e}")
 
+    def asignar_ruta():
+        print(Carga.lista_rutas)
+        ruta_grupos = "Nomina_ing_software/archivos_de_texto/Grupos.txt"
+        ruta_rutas = "Nomina_ing_software/archivos_de_texto/Rutas.txt"
+        ruta_asignacion = "Nomina_ing_software/archivos_de_texto/Asignacion_de_rutas.txt"
 
+        grupo_disponible = None
+        ruta_valida = None
+
+        
+        try:
+            with open(ruta_grupos, "r") as file:
+                lineas_grupos = file.readlines()
+
+            for i, linea in enumerate(lineas_grupos):
+                if linea.strip().endswith("Disponible"):
+                    grupo_disponible = linea.strip()
+                    indice_grupo = i 
+                    break
+        except FileNotFoundError:
+            print("Error: No se encontró el archivo de grupos.")
+            return
+        except Exception as e:
+            print(f"Ocurrió un error al leer Grupos.txt: {e}")
+            return
+
+        if not grupo_disponible:
+            print("No hay grupos disponibles.")
+            return
+
+        
+        ruta_ingresada = input("Ingrese la ruta: ").strip()
+
+    
+        try:
+            with open(ruta_rutas, "r") as file:
+                lineas_rutas = file.readlines()
+
+            for i, linea in enumerate(lineas_rutas):
+                palabras = linea.strip().split()
+                if palabras and palabras[0] == ruta_ingresada and palabras[-1] == "Por_cubrir":
+                    ruta_valida = linea.strip()
+                    indice_ruta = i  
+                    break
+        except FileNotFoundError:
+            print("Error: No se encontró el archivo de rutas.")
+            return
+        except Exception as e:
+            print(f"Ocurrió un error al leer Rutas.txt: {e}")
+            return
+
+        if not ruta_valida:
+            print("La ruta ingresada no existe o ya está cubierta en el archivo de rutas.")
+            return
+
+        
+        try:
+            with open(ruta_asignacion, "a") as file:
+                file.write(f"{grupo_disponible} - {ruta_valida}\n")
+
+            print(f"Grupo asignado correctamente: {grupo_disponible} -> {ruta_valida}")
+        except Exception as e:
+            print(f"Ocurrió un error al escribir en Asignacion_de_rutas.txt: {e}")
+            return
+
+        
+        try:
+            lineas_grupos[indice_grupo] = lineas_grupos[indice_grupo].replace("Disponible", "Ocupado") + "\n"
+            with open(ruta_grupos, "w") as file:
+                file.writelines(lineas_grupos)
+        except Exception as e:
+            print(f"Ocurrió un error al actualizar Grupos.txt: {e}")
+
+        try:
+            lineas_rutas[indice_ruta] = lineas_rutas[indice_ruta].replace("Por_cubrir", "Cubierta") + "\n"
+            with open(ruta_rutas, "w") as file:
+                file.writelines(lineas_rutas)
+        except Exception as e:
+            print(f"Ocurrió un error al actualizar Rutas.txt: {e}")
+
+    def limpiar_txt_grupos():
+       with open("Nomina_ing_software/archivos_de_texto/Grupos.txt", "w") as file:
+            pass  
+ 
 
 
 

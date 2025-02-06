@@ -1,0 +1,7 @@
+Ruta_Lunes_jueves Cubierta 
+Ruta_Martes_viernes Por_cubrir
+Ruta_Miercoles_sabado Por_cubrir
+Ruta_Lunes_miercoles_Viernes Por_cubrir
+Ruta_Martes_jueves_sabado Por_cubrir
+Ruta_Lunes_a_sabado Por_cubrir
+Ruta_Lunes_a_domingo Por_cubrir

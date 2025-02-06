@@ -16,11 +16,12 @@ class Consola():
 
             while True: 
                     print("\nSeleccione la acción que desee realizar:")
-                    print("1) Registrar Nuevo empleado") #Lista
-                    print("2) Formar grupo") #Lista
-                    print("3) Eliminar empleado") #LISTA
-                    print("4) Registrar Nuevo vehiculo") #
-                    print("5) Salir")
+                    print("1) Registrar Nuevo empleado")
+                    print("2) Formar grupo")
+                    print("3) Eliminar empleado")
+                    print("4) Registrar Nuevo vehiculo") 
+                    print("5) Asignar ruta")
+                    print("6) Salir")
                     
                     try:
                         respuesta = input("Ingrese el número de la acción deseada: ")
@@ -33,6 +34,8 @@ class Consola():
                         elif respuesta == "4":
                             Carga.crear_nuevo_vehiculo()
                         elif respuesta == "5":
+                            Carga.asignar_ruta()
+                        elif respuesta == "6":
                             print("Saliendo del menú...")
                             break  
                         else:
