@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 from funcionalidades.Carga import Carga
-from intfz_grafica.ventana_principal import Ventana_principal
 
 class Login:
     def __init__(self):
@@ -37,7 +36,7 @@ class Login:
         if Carga.validacion_admin(usuario, contrasena): 
             messagebox.showinfo("Inicio de sesión", "¡Inicio de sesión exitoso!")
             self.ventana.destroy()  # Cierra la ventana de login
-            Ventana_principal()  # Abre la ventana principal
+            from intfz_grafica.ventana_principal import Ventana_principal
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 

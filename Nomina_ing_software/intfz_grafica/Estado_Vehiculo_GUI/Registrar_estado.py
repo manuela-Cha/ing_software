@@ -9,7 +9,7 @@ class EstadoVehiculo:
         # Creación de la ventana principal
         self.ventana = tk.Tk()
         self.ventana.title("Estado de Vehículo")
-        self.ventana.geometry("400x350")
+        self.ventana.geometry("500x450")
 
         # Etiqueta y campo para la placa
         tk.Label(self.ventana, text="Placa:").pack(pady=5)
@@ -25,15 +25,19 @@ class EstadoVehiculo:
         frame_botones = tk.Frame(self.ventana)
         frame_botones.pack(pady=5)
 
-        self.boton_optimo = tk.Button(frame_botones, text="Óptimo", width=12, command=lambda: self.seleccionar_estado("Óptimo"))
+        self.boton_optimo = tk.Button(frame_botones, text="optimo", width=12, command=lambda: self.seleccionar_estado("optimo"))
         self.boton_optimo.pack(side=tk.LEFT, padx=5)
 
-        self.boton_no_optimo = tk.Button(frame_botones, text="No Óptimo", width=12, command=lambda: self.seleccionar_estado("En revisión"))
+        self.boton_no_optimo = tk.Button(frame_botones, text="No optimo", width=12, command=lambda: self.seleccionar_estado("En revision"))
         self.boton_no_optimo.pack(side=tk.LEFT, padx=5)
 
         # Botón para registrar
-        self.boton_registrar = tk.Button(self.ventana, text="Registrar estado del vehículo", command=self.registrar_vehiculo)
+        self.boton_registrar = tk.Button(self.ventana, text="Registrar estado del vehiculo", command=self.registrar_vehiculo)
         self.boton_registrar.pack(pady=10)
+
+        #Botón para cerrar
+        self.boton_cerrar = tk.Button(self.ventana, text="Cerrar", command=self.abrir_ventana_principal)
+        self.boton_cerrar.pack(pady=10)
 
         # Área para mostrar vehículos existentes
         tk.Label(self.ventana, text="Vehículos registrados:").pack(pady=5)
@@ -103,3 +107,9 @@ class EstadoVehiculo:
 
         except FileNotFoundError:
             messagebox.showerror("Error", f"No se encontró el archivo {self.ruta_vehiculos}")
+
+    def abrir_ventana_principal(self):
+        """Abre la ventana principal y oculta la de vehiculo temporalmente."""
+        self.ventana.withdraw()  # Ocultar la ventana principal
+        from intfz_grafica.ventana_principal import Ventana_principal
+        Ventana_principal()
