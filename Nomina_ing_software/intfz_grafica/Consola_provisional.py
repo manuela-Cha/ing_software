@@ -21,7 +21,8 @@ class Consola():
                     print("3) Eliminar empleado")
                     print("4) Registrar Nuevo vehiculo") 
                     print("5) Asignar ruta")
-                    print("6) Salir")
+                    print("6) Registrar estado del vehiculo")
+                    print("7) Salir")
                     
                     try:
                         respuesta = input("Ingrese el número de la acción deseada: ")
@@ -36,6 +37,8 @@ class Consola():
                         elif respuesta == "5":
                             Carga.asignar_ruta()
                         elif respuesta == "6":
+                            Carga.Registrar_estado_del_vehiculo()
+                        elif respuesta == "7":
                             print("Saliendo del menú...")
                             break  
                         else:

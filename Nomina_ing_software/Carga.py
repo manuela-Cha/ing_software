@@ -97,15 +97,14 @@ class Carga:
         
         return empleado
 
-
-    
     @staticmethod
     def crear_nuevo_vehiculo():
         print("Ingrese los datos del vehiculo: ")
 
         id_vehiculo = input("Id del vehiculo: ")
         vehiculo = Gestion.cargar_vehiculo(id_vehiculo)
-
+        if id_vehiculo == "":
+            return
         try:
             with open("Nomina_ing_software/archivos_de_texto/Empleados.txt", "a") as file:
                 file.write("{} {}\n".format(id_vehiculo, vehiculo.estado)) 
@@ -277,6 +276,39 @@ class Carga:
     def limpiar_txt_grupos():
        with open("Nomina_ing_software/archivos_de_texto/Grupos.txt", "w") as file:
             pass  
+       
+    def Registrar_estado_del_vehiculo():
+        print(Carga.lista_vehiculos)
+        ruta_vehiculos = "Nomina_ing_software/archivos_de_texto/Vehiculos.txt"
+
+        id_vehiculo = input("Ingrese el ID del vehículo al que le desea cambiar el estado: ").strip()
+        vehiculo_encontrado = False
+
+        try:
+            with open(ruta_vehiculos, "r") as file:
+                lineas = file.readlines()
+
+            for i, linea in enumerate(lineas):
+                palabras = linea.strip().split()
+                if palabras and palabras[0] == id_vehiculo:  
+                    palabras[-1] = "En_revision"  
+                    lineas[i] = " ".join(palabras) + "\n"
+                    vehiculo_encontrado = True
+                    break
+
+            
+            if vehiculo_encontrado:
+                with open(ruta_vehiculos, "w") as file:
+                    file.writelines(lineas)
+                print(f"El estado del vehículo {id_vehiculo} ha sido cambiado a 'En revisión'.")
+            else:
+                print("No se encontró un vehículo con el ID ingresado.")
+
+        except FileNotFoundError:
+            print("Error: No se encontró el archivo de vehículos.")
+        except Exception as e:
+            print(f"Ocurrió un error al actualizar el estado del vehículo: {e}")
+
  
 
 
