@@ -1,16 +1,52 @@
 import tkinter as tk
+from intfz_grafica.Estado_Vehiculo_GUI.Registrar_estado import EstadoVehiculo  # Importar la clase sin ejecutarla
 
-def ventana_principal():
-    # Crear una nueva ventana
-    ventana = tk.Toplevel()
-    ventana.title("Ventana Principal")
-    ventana.geometry("600x400")
+class Ventana_principal:
+    def __init__(self):
+        self.ventana = tk.Tk()
+        self.ventana.title("Ventana Principal")
 
-    # Contenido de la ventana principal
-    tk.Label(ventana, text="¡Bienvenido a la Ventana Principal!", font=("Arial", 18)).pack(pady=50)
-    tk.Button(ventana, text="Cerrar", command=ventana.destroy).pack(pady=20)
+        ancho_pantalla = self.ventana.winfo_screenwidth()
+        alto_pantalla = self.ventana.winfo_screenheight()
+        self.ventana.geometry(f"{ancho_pantalla}x{alto_pantalla}")
 
-    # Bucle principal
-    ventana.mainloop()
+        frame_central = tk.Frame(self.ventana)
+        frame_central.pack(expand=True)
 
-ventana_principal()
+        botones = [
+            ("Registrar empleado", self.registrar_empleado),
+            ("Formar grupo", self.formar_grupo),
+            ("Eliminar empleado", self.eliminar_empleado),
+            ("Registrar nuevo vehículo", self.registrar_vehiculo),
+            ("Asignar ruta", self.asignar_ruta),
+            ("Registrar estado del vehículo", self.abrir_estado_vehiculo)  # Redirige a EstadoVehiculo
+        ]
+
+        for texto, comando in botones:
+            btn = tk.Button(frame_central, text=texto, font=("Arial", 14), width=25, height=2, command=comando)
+            btn.pack(pady=10)
+
+        self.ventana.mainloop()
+
+    def registrar_empleado(self):
+        print("Función para registrar empleado")
+
+    def formar_grupo(self):
+        print("Función para formar grupo")
+
+    def eliminar_empleado(self):
+        print("Función para eliminar empleado")
+
+    def registrar_vehiculo(self):
+        print("Función para registrar nuevo vehículo")
+
+    def asignar_ruta(self):
+        print("Función para asignar ruta")
+
+    def abrir_estado_vehiculo(self):
+        """Abre la ventana de EstadoVehiculo y oculta la principal temporalmente."""
+        self.ventana.withdraw()  # Ocultar la ventana principal
+        EstadoVehiculo()  # Pasar la referencia de la ventana principal
+
+# Ejecutar la aplicación
+Ventana_principal()

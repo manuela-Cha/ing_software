@@ -1,4 +1,4 @@
-from Carga import Carga
+from funcionalidades.Carga import Carga
 
 class Consola():
 
