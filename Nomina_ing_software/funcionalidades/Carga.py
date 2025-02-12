@@ -124,7 +124,9 @@ class Carga:
     
     @staticmethod
     def crear_grupo():
-        print("Lista de empleados:", Carga.lista_empleados)
+        for empleado in Carga.lista_empleados:
+            if empleado.estado == "Disponible":
+                print(empleado)
         dia = input("Ingrese el día actual: ")
         mes = input("Ingrese el mes actual: ")
         anio = input("Ingrese el año actual: ")
