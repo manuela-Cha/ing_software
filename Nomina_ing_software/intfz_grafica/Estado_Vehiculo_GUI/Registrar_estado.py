@@ -25,10 +25,10 @@ class EstadoVehiculo:
         frame_botones = tk.Frame(self.ventana)
         frame_botones.pack(pady=5)
 
-        self.boton_optimo = tk.Button(frame_botones, text="optimo", width=12, command=lambda: self.seleccionar_estado("optimo"))
+        self.boton_optimo = tk.Button(frame_botones, text="Disponible", width=12, command=lambda: self.seleccionar_estado("Disponible"))
         self.boton_optimo.pack(side=tk.LEFT, padx=5)
 
-        self.boton_no_optimo = tk.Button(frame_botones, text="No optimo", width=12, command=lambda: self.seleccionar_estado("En revision"))
+        self.boton_no_optimo = tk.Button(frame_botones, text="No-optimo", width=12, command=lambda: self.seleccionar_estado("No-optimo"))
         self.boton_no_optimo.pack(side=tk.LEFT, padx=5)
 
         # Botón para registrar
@@ -52,7 +52,7 @@ class EstadoVehiculo:
         """Actualiza el estado del vehículo seleccionado."""
         self.estado_vehiculo = estado
 
-        if estado == "Óptimo":
+        if estado == "Disponible":
             self.boton_optimo.config(bg="light blue", relief=tk.SUNKEN)
             self.boton_no_optimo.config(bg="SystemButtonFace", relief=tk.RAISED)
         else:
@@ -111,5 +111,5 @@ class EstadoVehiculo:
     def abrir_ventana_principal(self):
         """Abre la ventana principal y oculta la de vehiculo temporalmente."""
         self.ventana.withdraw()  # Ocultar la ventana principal
-        from intfz_grafica.ventana_principal import Ventana_principal
+        from Nomina_ing_software.intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()

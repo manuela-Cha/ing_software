@@ -1,8 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-import subprocess
-import os
-from Nomina_ing_software.funcionalidades.Agregar_empleado import Agregar_empleado
 
 class Registrar_empleado_GUI:
     def __init__(self):
@@ -45,33 +42,3 @@ class Registrar_empleado_GUI:
         # Iniciar el bucle de la interfaz gráfica
         self.ventana.mainloop()
 
-    def iniciar_api(self):
-        """Inicia la API Flask."""
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        api_path = os.path.join(script_dir, "..", "api", "app.py")
-
-        if not os.path.isfile(api_path):
-            messagebox.showerror("Error", f"No se encontró la API en: {api_path}")
-            return
-
-        try:
-            subprocess.Popen(["python", api_path])
-            print("Iniciando API Flask...")
-        except Exception as e:
-            messagebox.showerror("Error", f"No se pudo iniciar la API Flask: {e}")
-
-    def registrar_empleado(self):
-        try:
-            Agregar_empleado.registrar_empleado(
-                self.entry_nombre.get().strip(),
-                self.entry_apellido.get().strip(),
-                self.entry_cedula.get().strip(),
-                self.entry_turno.get().strip(),
-                self.entry_ruta_asignada.get().strip()
-            )
-            messagebox.showinfo("Éxito", "Empleado agregado correctamente")
-        except Exception as e:
-            messagebox.showerror("Error", f"Error al agregar empleado: {e}")
-
-if __name__ == "__main__":
-    Registrar_empleado_GUI()

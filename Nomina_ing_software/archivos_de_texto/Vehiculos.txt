@@ -1,3 +1,3 @@
-12345 En optimo
-21346 En En revision
+12345 En-revision
+21346 En-revision
 12346 Disponible

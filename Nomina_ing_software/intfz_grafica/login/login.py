@@ -36,7 +36,7 @@ class Login:
         if Carga.validacion_admin(usuario, contrasena): 
             messagebox.showinfo("Inicio de sesión", "¡Inicio de sesión exitoso!")
             self.ventana.destroy()  # Cierra la ventana de login
-            from intfz_grafica.ventana_principal import Ventana_principal
+            from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 
