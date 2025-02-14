@@ -2,6 +2,9 @@ import tkinter as tk
 from intfz_grafica.Estado_Vehiculo_GUI.Registrar_estado import EstadoVehiculo  # Importar la clase sin ejecutarla
 from intfz_grafica.Eliminar_Empleado_GUI.eliminar_empleado_gui import Eliminar_empleado_GUI
 from intfz_grafica.Registrar_Empleado_GUI.registrar_empleado_gui import Registrar_empleado_GUI
+from intfz_grafica.Registrar_Vehiculo_GUI.registrar_vehiculo_gui import RegistrarvehiculoGUI
+from tkinter import messagebox
+
 class Ventana_principal:
     def __init__(self):
         self.ventana = tk.Tk()
@@ -15,12 +18,13 @@ class Ventana_principal:
         frame_central.pack(expand=True)
 
         botones = [
-            ("Registrar empleado", self.registrar_empleado),
+            ("Registrar empleado", self.registrar_empleado), #Lista
             ("Formar grupo", self.formar_grupo),
-            ("Eliminar empleado", self.eliminar_empleado),
+            ("Eliminar empleado", self.eliminar_empleado), #Lista
             ("Registrar nuevo vehículo", self.registrar_vehiculo),
             ("Asignar ruta", self.asignar_ruta),
-            ("Registrar estado del vehículo", self.abrir_estado_vehiculo)  # Redirige a EstadoVehiculo
+            ("Registrar estado del vehículo", self.abrir_estado_vehiculo),
+            ("Cerrar", self.cerrar)
         ]
 
         for texto, comando in botones:
@@ -43,7 +47,9 @@ class Ventana_principal:
         Eliminar_empleado_GUI()  # Pasar la referencia de la ventana principal
 
     def registrar_vehiculo(self):
-        print("Función para registrar nuevo vehículo")
+        """Abre la ventana de Registrar vehículo y oculta la principal temporalmente."""   
+        self.ventana.withdraw()
+        RegistrarvehiculoGUI()
 
     def asignar_ruta(self):
         print("Función para asignar ruta")
@@ -52,6 +58,15 @@ class Ventana_principal:
         """Abre la ventana de EstadoVehiculo y oculta la principal temporalmente."""
         self.ventana.withdraw()  # Ocultar la ventana principal
         EstadoVehiculo()  # Pasar la referencia de la ventana principal
+
+    def cerrar(self):
+        respuesta = messagebox.askyesno(
+            "Confirmar cierre",
+            "Si cierra el programa, los grupos creados se disolverán ya que al volver a iniciar se interpretará como un día nuevo.\n¿Desea continuar?"
+        )
+        if respuesta:  # Si el usuario selecciona 'Sí'
+            self.ventana.destroy()
+
 
 # Ejecutar la aplicación
 Ventana_principal()
