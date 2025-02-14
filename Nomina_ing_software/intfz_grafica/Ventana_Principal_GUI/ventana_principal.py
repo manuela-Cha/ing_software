@@ -1,7 +1,7 @@
 import tkinter as tk
 from intfz_grafica.Estado_Vehiculo_GUI.Registrar_estado import EstadoVehiculo  # Importar la clase sin ejecutarla
 from intfz_grafica.Eliminar_Empleado_GUI.eliminar_empleado_gui import Eliminar_empleado_GUI
-
+from intfz_grafica.Registrar_Empleado_GUI.registrar_empleado_gui import Registrar_empleado_GUI
 class Ventana_principal:
     def __init__(self):
         self.ventana = tk.Tk()
@@ -30,7 +30,9 @@ class Ventana_principal:
         self.ventana.mainloop()
 
     def registrar_empleado(self):
-        print("Función para registrar empleado")
+        """Abre la ventana de Registrar empleado y oculta la principal temporalmente."""
+        self.ventana.withdraw()  # Ocultar la ventana principal
+        Registrar_empleado_GUI()  # Pasar la referencia de la ventana principal
 
     def formar_grupo(self):
         print("Función para formar grupo")

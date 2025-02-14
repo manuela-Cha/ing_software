@@ -37,9 +37,9 @@ class Eliminar_empleado_GUI:
 
     # Función para manejar el evento del botón
     def eliminar_empleado(self):
-        nombre = self.entry_nombre.get().strip()
-        apellido = self.entry_apellido.get().strip()
-        cedula = self.entry_cedula.get().strip()
+        nombre = self.entry_nombre.get().strip().lower()  # Convertir a minúsculas
+        apellido = self.entry_apellido.get().strip().lower()  # Convertir a minúsculas
+        cedula = self.entry_cedula.get().strip()  # La cédula se deja sin modificar
 
         # Validar que los campos no estén vacíos
         if not nombre or not apellido or not cedula:
@@ -54,9 +54,12 @@ class Eliminar_empleado_GUI:
         # Revisar si el empleado está en alguna línea
         nueva_lista = []
         for linea in lineas:
-            datos = linea.strip().split(" ")  # Asumiendo que los datos están separados por comas
+            datos = linea.strip().split(" ")  # Asumiendo que los datos están separados por espacios
             if len(datos) == 3:  # Asegurarse de que tenga los 3 campos necesarios
-                nombre_archivo, apellido_archivo, cedula_archivo = datos
+                nombre_archivo = datos[0].lower()  # Convertir a minúsculas
+                apellido_archivo = datos[1].lower()  # Convertir a minúsculas
+                cedula_archivo = datos[2]  # La cédula se compara tal cual
+                # Comparar sin importar mayúsculas y minúsculas
                 if nombre == nombre_archivo and apellido == apellido_archivo and cedula == cedula_archivo:
                     empleado_encontrado = True
                     continue  # Saltar esta línea para eliminarla
@@ -70,8 +73,9 @@ class Eliminar_empleado_GUI:
         else:
             messagebox.showerror("Error", "El empleado no existe en el archivo.")
 
+
     def abrir_ventana_principal(self):
         """Abre la ventana principal y oculta la de vehiculo temporalmente."""
         self.ventana.withdraw()  # Ocultar la ventana principal
-        from Nomina_ing_software.intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
+        from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()
