@@ -3,6 +3,7 @@ from intfz_grafica.Estado_Vehiculo_GUI.Registrar_estado import EstadoVehiculo  #
 from intfz_grafica.Eliminar_Empleado_GUI.eliminar_empleado_gui import Eliminar_empleado_GUI
 from intfz_grafica.Registrar_Empleado_GUI.registrar_empleado_gui import Registrar_empleado_GUI
 from intfz_grafica.Registrar_Vehiculo_GUI.registrar_vehiculo_gui import RegistrarvehiculoGUI
+from intfz_grafica.Formar_Grupo_GUI.Formar_grupo import Formar_Grupo_GUI
 from tkinter import messagebox
 
 class Ventana_principal:
@@ -40,6 +41,8 @@ class Ventana_principal:
 
     def formar_grupo(self):
         print("Función para formar grupo")
+        self.ventana.withdraw()
+        Formar_Grupo_GUI()
 
     def eliminar_empleado(self):
         """Abre la ventana de Eliminar empleado y oculta la principal temporalmente."""
