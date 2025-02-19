@@ -1,7 +1,8 @@
-Jonhatan Cuartas 12
-Alan Mena 1234 
-Matiux Perez 123456
-juan lopez 1234567
-Juan perea 98760
-Carla Henao 123456789
-manuela chaverra 100443
+Jonhatan Cuartas 12 Ocupado
+Alan Mena 1234 Ocupado
+Matiux Perez 123456 Ocupado
+juan lopez 1234567 Disponible
+Juan perea 98760 Disponible
+Carla Henao 123456789 Disponible
+manuela chaverra 100443 Disponible
+manuela chaverra 1000443641 Disponible

@@ -1,5 +1,5 @@
 import tkinter as tk
-from intfz_grafica.Estado_Vehiculo_GUI.Registrar_estado import EstadoVehiculo  # Importar la clase sin ejecutarla
+from intfz_grafica.Estado_Vehiculo_GUI.Registrar_estado import EstadoVehiculo  
 from intfz_grafica.Eliminar_Empleado_GUI.eliminar_empleado_gui import Eliminar_empleado_GUI
 from intfz_grafica.Registrar_Empleado_GUI.registrar_empleado_gui import Registrar_empleado_GUI
 from intfz_grafica.Registrar_Vehiculo_GUI.registrar_vehiculo_gui import RegistrarvehiculoGUI

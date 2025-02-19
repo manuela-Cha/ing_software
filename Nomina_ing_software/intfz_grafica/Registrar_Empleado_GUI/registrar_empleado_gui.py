@@ -67,7 +67,7 @@ class Registrar_empleado_GUI:
 
         # Si no existe, agregar el empleado al archivo
         with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'a') as archivo:
-            archivo.write(f"{nombre} {apellido} {cedula}\n")
+            archivo.write(f"{nombre} {apellido} {cedula} Disponible\n")
         
         messagebox.showinfo("Éxito", "Empleado agregado correctamente.")
         

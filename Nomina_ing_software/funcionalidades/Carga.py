@@ -1,12 +1,35 @@
 from funcionalidades.Gestion import Gestion
 class Carga:
-    lista_empleados = list()
+    """lista_empleados = list()
     lista_vehiculos = list()
-    lista_rutas = list()
+    lista_rutas = list()"""
     lista_admins = list()
-    lista_grupos = list()
+    #lista_grupos = list()
 
+    def limpiar_txt_grupos():
+        with open("Nomina_ing_software/archivos_de_texto/Grupos.txt", "w") as file:
+                pass
+        
     @classmethod
+    def carga_admins_existentes(cls):
+        try:
+            with open("Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt", 'rb') as file:
+                for linea in file:
+                    datos = linea.decode('utf-8').strip().split() 
+                    obj = Gestion.cargar_admin(datos[0], datos[1])
+                    Carga.lista_admins.append(obj)
+        except FileNotFoundError as e:
+            print(f"Error: {e}")
+            
+    @staticmethod
+    def validacion_admin(usuario_ingresado, contrasena_ingresada):
+        flag = False
+        for i in Carga.lista_admins:
+            if i.get_usuario() == usuario_ingresado and i.get_contrasena() == contrasena_ingresada:
+                flag = True
+                break
+        return flag
+    """@classmethod
     def carga_empleados_existentes(cls):
         try:
             with open("Nomina_ing_software/archivos_de_texto/Empleados.txt", 'rb') as file:
@@ -39,18 +62,9 @@ class Carga:
                     obj.estado = datos[1]
                     Carga.lista_rutas.append(obj)
         except FileNotFoundError as e:
-            print(f"Error: {e}")
+            print(f"Error: {e}")"""
 
-    @classmethod
-    def carga_admins_existentes(cls):
-        try:
-            with open("Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt", 'rb') as file:
-                for linea in file:
-                    datos = linea.decode('utf-8').strip().split() 
-                    obj = Gestion.cargar_admin(datos[0], datos[1])
-                    Carga.lista_admins.append(obj)
-        except FileNotFoundError as e:
-            print(f"Error: {e}")
+    
 
     """@classmethod
     def carga_grupos_existentes(cls):
@@ -63,7 +77,7 @@ class Carga:
         except FileNotFoundError as e:
             print(f"Error: {e}")"""
         
-    @staticmethod
+    """@staticmethod
     def crear_nuevo_empleado():
         print("Ingrese los datos del empleado: ")
         nombre = input("Nombre: ").strip()
@@ -95,9 +109,9 @@ class Carga:
         except Exception as e:
             print("No se pudo escribir en Empleados:", e)
         
-        return empleado
+        return empleado"""
 
-    @staticmethod
+    """@staticmethod
     def crear_nuevo_vehiculo():
         print("Ingrese los datos del vehiculo: ")
 
@@ -120,9 +134,9 @@ class Carga:
 
         ruta_str = input("ruta: ")
         ruta = Gestion.cargar_ruta(ruta_str)
-        return ruta
+        return ruta"""
     
-    @staticmethod
+    """@staticmethod
     def crear_grupo():
         for empleado in Carga.lista_empleados:
             if empleado.estado == "Disponible":
@@ -160,18 +174,11 @@ class Carga:
             except Exception as e:
                 print("No se pudo escribir en Grupos:", e)
         else:
-            print("Error: Algún integrante o el vehículo no está disponible o no existe.")
+            print("Error: Algún integrante o el vehículo no está disponible o no existe.")"""
     
-    @staticmethod
-    def validacion_admin(usuario_ingresado, contrasena_ingresada):
-        flag = False
-        for i in Carga.lista_admins:
-            if i.get_usuario() == usuario_ingresado and i.get_contrasena() == contrasena_ingresada:
-                flag = True
-                break
-        return flag
     
-    @staticmethod
+    
+    """@staticmethod
     def eliminar_empleado():
         cedula = input("Ingrese la Cedula del empleado que eliminara: ")
         try:
@@ -193,9 +200,9 @@ class Carga:
         except FileNotFoundError:
             print("Error: No se encontró el archivo.")
         except Exception as e:
-            print(f"Ocurrió un error: {e}")
+            print(f"Ocurrió un error: {e}")"""
 
-    def asignar_ruta():
+    """def asignar_ruta():
         print(Carga.lista_rutas)
         ruta_grupos = "Nomina_ing_software/archivos_de_texto/Grupos.txt"
         ruta_rutas = "Nomina_ing_software/archivos_de_texto/Rutas.txt"
@@ -273,13 +280,11 @@ class Carga:
             with open(ruta_rutas, "w") as file:
                 file.writelines(lineas_rutas)
         except Exception as e:
-            print(f"Ocurrió un error al actualizar Rutas.txt: {e}")
+            print(f"Ocurrió un error al actualizar Rutas.txt: {e}")"""
 
-    def limpiar_txt_grupos():
-       with open("Nomina_ing_software/archivos_de_texto/Grupos.txt", "w") as file:
-            pass  
+      
        
-    def Registrar_estado_del_vehiculo():
+    """def Registrar_estado_del_vehiculo():
         print(Carga.lista_vehiculos)
         ruta_vehiculos = "Nomina_ing_software/archivos_de_texto/Vehiculos.txt"
 
@@ -309,7 +314,7 @@ class Carga:
         except FileNotFoundError:
             print("Error: No se encontró el archivo de vehículos.")
         except Exception as e:
-            print(f"Ocurrió un error al actualizar el estado del vehículo: {e}")
+            print(f"Ocurrió un error al actualizar el estado del vehículo: {e}")"""
 
  
 
