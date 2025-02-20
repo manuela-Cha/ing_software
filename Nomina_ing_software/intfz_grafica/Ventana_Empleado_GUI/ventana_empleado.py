@@ -44,6 +44,9 @@ class Ventana_Empleado_GUI(Tk):
         return {'nombre': 'Desconocido', 'apellido': '', 'estado': 'Desconocido'}
     
     def verificar_estado_grupo(self):
+        """
+        Verifica y muestra el estado actual del grupo del empleado
+        """
         # Limpiamos primero todos los widgets existentes
         for widget in self.estado_frame.winfo_children():
             widget.destroy()
@@ -64,26 +67,31 @@ class Ventana_Empleado_GUI(Tk):
                         grupo_inicio = i
                         i += 1
                         
-                        # Buscar en todo el grupo actual
-                        encontrado = False
+                        # Guardar el grupo actual temporalmente
+                        grupo_temp = []
                         while i < len(lineas) and not lineas[i].strip().startswith("-" * 50):
-                            if f"CC: {self.cedula_empleado}" in lineas[i]:
-                                encontrado = True
+                            grupo_temp.append(lineas[i].strip())
                             i += 1
                         
-                        # Si encontramos al empleado en este grupo, recolectar toda la información
-                        if encontrado:
-                            self.esta_en_grupo = True
-                            grupo_actual.append(f"Fecha de creación: {fecha}")
-                            j = grupo_inicio + 1
-                            while j < i:
-                                if lineas[j].startswith("Vehiculo asignado:"):
-                                    self.vehiculo_asignado = lineas[j].split(": ")[1].strip()
-                                grupo_actual.append(lineas[j].strip())
-                                j += 1
-                            self.info_grupo = grupo_actual
-                            break
+                        # Verificar si el empleado está en este grupo usando la cédula exacta
+                        for linea_grupo in grupo_temp:
+                            if "(CC:" in linea_grupo:
+                                cedula_en_grupo = linea_grupo.split("(CC: ")[1].split(")")[0]
+                                if cedula_en_grupo == self.cedula_empleado:
+                                    self.esta_en_grupo = True
+                                    grupo_actual.append(f"Fecha de creación: {fecha}")
+                                    grupo_actual.extend(grupo_temp)
+                                    self.info_grupo = grupo_actual
+                                    
+                                    # Obtener el vehículo asignado
+                                    for linea_vehiculo in grupo_temp:
+                                        if linea_vehiculo.startswith("Vehiculo asignado:"):
+                                            self.vehiculo_asignado = linea_vehiculo.split(": ")[1].strip()
+                                    break
                         
+                        if self.esta_en_grupo:
+                            break
+                            
                         if i < len(lineas) and lineas[i].strip().startswith("-" * 50):
                             i += 1
                     else:
@@ -92,7 +100,7 @@ class Ventana_Empleado_GUI(Tk):
         except Exception as e:
             messagebox.showerror("Error", f"Error al leer archivo de grupos: {str(e)}")
             return
-        
+    
         # Mostramos la información en la interfaz
         self.mostrar_estado_grupo()
 
@@ -109,51 +117,108 @@ class Ventana_Empleado_GUI(Tk):
             Label(self.estado_frame, text="Estado: No asignado a ningún grupo", font=('Arial', 12, 'bold'), fg='blue').pack(pady=10)
 
     
-    def trabajo_confirmado(self):
-        if messagebox.askyesno("Confirmación", "¿Está seguro de que desea confirmar el trabajo y eliminar el grupo?"):
-            try:
-                self.actualizar_vehiculo()
-                self.actualizar_empleados()
-                self.eliminar_grupo()
-                
-                # Usamos after para dar un pequeño retraso antes de actualizar la interfaz
-                self.after(100, self.actualizar_interfaz)
-                
-            except Exception as e:
-                messagebox.showerror("Error", f"Error al confirmar el trabajo: {str(e)}")
-    
     def actualizar_interfaz(self):
-        self.verificar_estado_grupo()
+        """
+        Actualiza la interfaz después de confirmar el trabajo y eliminar el grupo
+        """
+        # Resetear las variables de estado
+        self.esta_en_grupo = False
+        self.info_grupo = []
+        self.vehiculo_asignado = None
+        
+        # Limpiar el estado_frame actual
+        for widget in self.estado_frame.winfo_children():
+            widget.destroy()
+        
+        # Mostrar el nuevo estado (no asignado)
+        Label(self.estado_frame, 
+            text="Estado: No asignado a ningún grupo", 
+            font=('Arial', 12, 'bold'), 
+            fg='blue').pack(pady=10)
+        
         messagebox.showinfo("Éxito", "El grupo ha sido eliminado correctamente.")
         self.update_idletasks()
 
     def actualizar_vehiculo(self):
+        """
+        Actualiza el estado del vehículo asignado al grupo actual a 'Disponible'
+        """
         try:
+            # Obtener el vehículo del grupo actual
+            vehiculo_grupo = None
+            for linea in self.info_grupo:
+                if linea.startswith("Vehiculo asignado:"):
+                    vehiculo_grupo = linea.split(": ")[1].strip()
+                    break
+                    
+            if not vehiculo_grupo:
+                messagebox.showerror("Error", "No se encontró el vehículo asignado al grupo")
+                return
+                
+            # Actualizar el archivo de vehículos
             with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'r') as archivo:
                 lineas = archivo.readlines()
+                
             with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'w') as archivo:
                 for linea in lineas:
-                    if linea.startswith(self.vehiculo_asignado):
-                        archivo.write(f"{self.vehiculo_asignado} Disponible\n")
+                    datos = linea.strip().split(" ")
+                    if datos[0] == vehiculo_grupo:
+                        archivo.write(f"{vehiculo_grupo} Disponible\n")
                     else:
                         archivo.write(linea)
+                        
         except Exception as e:
             messagebox.showerror("Error", f"Error al actualizar el estado del vehículo: {str(e)}")
-    
+
     def actualizar_empleados(self):
+        """
+        Actualiza el estado de los empleados del grupo actual a 'Disponible'
+        """
         try:
+            # Obtener las cédulas de los empleados del grupo actual
+            empleados_grupo = [
+                x.split("(")[1].split(")")[0].split(": ")[1] 
+                for x in self.info_grupo 
+                if "(CC:" in x
+            ]
+            
+            if not empleados_grupo:
+                messagebox.showerror("Error", "No se encontraron empleados en el grupo")
+                return
+                
+            # Actualizar el archivo de empleados
             with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
                 lineas = archivo.readlines()
+                
             with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'w') as archivo:
                 for linea in lineas:
                     datos = linea.strip().split(" ")
-                    if len(datos) == 4 and datos[2] in [x.split("(")[1].split(")")[0].split(": ")[1] for x in self.info_grupo if "CC:" in x]:
+                    if len(datos) == 4 and datos[2] in empleados_grupo:
                         archivo.write(f"{datos[0]} {datos[1]} {datos[2]} Disponible\n")
                     else:
                         archivo.write(linea)
+                        
         except Exception as e:
             messagebox.showerror("Error", f"Error al actualizar el estado de los empleados: {str(e)}")
 
+    def trabajo_confirmado(self):
+        if messagebox.askyesno("Confirmación", "¿Está seguro de que desea confirmar el trabajo y eliminar el grupo?"):
+            try:
+                # Guardar una copia de la información del grupo antes de eliminarlo
+                grupo_actual = self.info_grupo.copy()
+                vehiculo_actual = self.vehiculo_asignado
+                
+                # Realizar las actualizaciones
+                self.actualizar_vehiculo()
+                self.actualizar_empleados()
+                self.eliminar_grupo()
+                
+                # Actualizar la interfaz
+                self.after(100, self.actualizar_interfaz)
+                
+            except Exception as e:
+                messagebox.showerror("Error", f"Error al confirmar el trabajo: {str(e)}")
+                
     def cerrar_sesion(self):
         if messagebox.askyesno("Cerrar Sesión", "¿Está seguro que desea cerrar sesión?"):
             self.destroy()
@@ -177,28 +242,17 @@ class Ventana_Empleado_GUI(Tk):
         return None
 
     def es_grupo_del_empleado(self, lineas, inicio, fin):
-        """Verifica si el grupo entre los índices dados corresponde al empleado actual"""
-        datos_empleado = self.obtener_datos_empleado()
-        if not datos_empleado:
-            return False
-        
-        encontrado_cedula = False
-        encontrado_nombre = False
-        encontrado_apellido = False
-        
+        """
+        Verifica si el grupo entre los índices dados corresponde al empleado actual
+        """
         for i in range(inicio, fin):
             linea = lineas[i].strip()
-            # Verificar coincidencia de cédula
-            if f"CC: {datos_empleado['cedula']}" in linea:
-                encontrado_cedula = True
-            # Verificar coincidencia de nombre
-            if datos_empleado['nombre'] in linea:
-                encontrado_nombre = True
-            # Verificar coincidencia de apellido
-            if datos_empleado['apellido'] in linea:
-                encontrado_apellido = True
-                
-        return encontrado_cedula and encontrado_nombre and encontrado_apellido
+            if "(CC:" in linea:
+                cedula_en_grupo = linea.split("(CC: ")[1].split(")")[0]
+                if cedula_en_grupo == self.cedula_empleado:
+                    return True
+        return False
+
 
     def eliminar_grupo(self):
         try:

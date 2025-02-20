@@ -9,6 +9,10 @@ class Formar_Grupo_GUI(Tk):
         self.title("Formación de grupos")
         self.geometry("500x600")
         
+        # Obtener listas actualizadas al crear la instancia
+        self.trabajadores_disponibles = self.obtener_trabajadores_disponibles()
+        self.vehiculos_disponibles = self.obtener_vehiculos_disponibles()
+        
         # Valores para retornar las selecciones
         self.valores = [StringVar(self) for i in range(3)]
         self.valorVehiculo = StringVar(self)
@@ -39,7 +43,7 @@ class Formar_Grupo_GUI(Tk):
         # Frame para vehículo
         self.frameVehiculo = Frame(self.main_frame, pady=10)
         self.vehiculoLabel = Label(self.frameVehiculo, text="Seleccione el vehículo a asignar")
-        self.vehiculoOpciones = OptionMenu(self.frameVehiculo, self.valorVehiculo, *vehiculos_disponibles)
+        self.vehiculoOpciones = OptionMenu(self.frameVehiculo, self.valorVehiculo, *self.vehiculos_disponibles)
         self.vehiculoLabel.pack()
         self.vehiculoOpciones.pack()
         self.frameVehiculo.pack()
@@ -78,6 +82,8 @@ class Formar_Grupo_GUI(Tk):
         self.confirm.pack(pady=20)
         
         self.mainloop()
+
+    
 
     def obtener_fecha_seleccionada(self):
         return f"{self.anio.get()}-{self.mes.get()}-{self.dia.get()}"
@@ -168,22 +174,21 @@ class Formar_Grupo_GUI(Tk):
         aux = Frame(self.main_frame)
         auxLabel = Label(aux, text=f"Trabajador {number + 1}")
         
-        # Crear el menú con las opciones disponibles
-        opciones_disponibles = trabajadores_disponibles if number == 0 else ['']
+        # Usar self.trabajadores_disponibles en lugar de la variable global
+        opciones_disponibles = self.trabajadores_disponibles if number == 0 else ['']
         menu = OptionMenu(aux, self.valores[number], *opciones_disponibles)
         self.trabajador_menus.append(menu)
         
         auxLabel.grid(row=number, column=0, padx=5)
         menu.grid(row=number, column=1, padx=5)
         aux.pack(pady=5)
-        return
     
     def actualizar_opciones(self, menu_index):
         # Obtener trabajadores ya seleccionados
         seleccionados = [var.get() for var in self.valores[:menu_index]]
         
-        # Filtrar las opciones disponibles
-        opciones_disponibles = [t for t in trabajadores_disponibles if t not in seleccionados]
+        # Filtrar las opciones disponibles usando self.trabajadores_disponibles
+        opciones_disponibles = [t for t in self.trabajadores_disponibles if t not in seleccionados]
         
         # Actualizar el menú correspondiente
         menu = self.trabajador_menus[menu_index]
@@ -195,29 +200,35 @@ class Formar_Grupo_GUI(Tk):
                 command=lambda o=opcion: self.valores[menu_index].set(o)
             )
 
-def trabajadores_disponibles():
-    trabajadores_dispo = []
-    with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
-        lineas = archivo.readlines()
-        for linea in lineas:
-            datos = linea.strip().split(" ")
-            if datos[3] == "Disponible":
-                nombre_completo = datos[0] + " " + datos[1]
-                trabajadores_dispo.append(nombre_completo)
-    return trabajadores_dispo
+    def obtener_trabajadores_disponibles(self):
+            """Método para obtener la lista actualizada de trabajadores disponibles"""
+            trabajadores_dispo = []
+            try:
+                with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
+                    for linea in archivo:
+                        datos = linea.strip().split(" ")
+                        if datos[3] == "Disponible":
+                            nombre_completo = datos[0] + " " + datos[1]
+                            trabajadores_dispo.append(nombre_completo)
+            except Exception as e:
+                messagebox.showerror("Error", f"Error al leer archivo de empleados: {str(e)}")
+            return trabajadores_dispo
 
-def vehiculos_disponibles():
-    vehiculos_dispo = []
-    with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'r') as archivo:
-        lineas = archivo.readlines()
-        for linea in lineas:
-            datos = linea.strip().split(" ")
-            if datos[1] == "Disponible":
-                vehiculos_dispo.append(datos[0])
-    return vehiculos_dispo
+    def obtener_vehiculos_disponibles(self):
+        """Método para obtener la lista actualizada de vehículos disponibles"""
+        vehiculos_dispo = []
+        try:
+            with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'r') as archivo:
+                for linea in archivo:
+                    datos = linea.strip().split(" ")
+                    if datos[1] == "Disponible":
+                        vehiculos_dispo.append(datos[0])
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al leer archivo de vehículos: {str(e)}")
+        return vehiculos_dispo
 
-trabajadores_disponibles = trabajadores_disponibles()
-vehiculos_disponibles = vehiculos_disponibles()
+"""trabajadores_disponibles = trabajadores_disponibles()
+vehiculos_disponibles = vehiculos_disponibles()"""
 
 """if __name__ == "__main__":
     Formar_Grupo_GUI()"""
