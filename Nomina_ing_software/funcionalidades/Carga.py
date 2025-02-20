@@ -11,7 +11,7 @@ class Carga:
                 pass
         
     @classmethod
-    def carga_admins_existentes(cls):
+    def carga_usuarios_existentes(cls):
         try:
             with open("Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt", 'rb') as file:
                 for linea in file:
@@ -22,7 +22,7 @@ class Carga:
             print(f"Error: {e}")
             
     @staticmethod
-    def validacion_admin(usuario_ingresado, contrasena_ingresada):
+    def validacion_Usuario(usuario_ingresado, contrasena_ingresada):
         flag = False
         for i in Carga.lista_admins:
             if i.get_usuario() == usuario_ingresado and i.get_contrasena() == contrasena_ingresada:

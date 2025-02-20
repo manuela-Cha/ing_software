@@ -131,6 +131,8 @@ class Formar_Grupo_GUI(Tk):
         
         messagebox.showinfo("Éxito", "Grupo formado y registrado correctamente.")
         self.destroy()
+        from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
+        Ventana_principal()
     
     def verificacion(self):
         trabajadores_seleccionados = [self.valores[0].get(), self.valores[1].get(), self.valores[2].get()]
@@ -217,5 +219,5 @@ def vehiculos_disponibles():
 trabajadores_disponibles = trabajadores_disponibles()
 vehiculos_disponibles = vehiculos_disponibles()
 
-if __name__ == "__main__":
-    Formar_Grupo_GUI()
+"""if __name__ == "__main__":
+    Formar_Grupo_GUI()"""

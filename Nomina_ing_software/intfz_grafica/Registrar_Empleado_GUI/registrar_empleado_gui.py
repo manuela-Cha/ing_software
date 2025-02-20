@@ -21,11 +21,11 @@ class Registrar_empleado_GUI:
         self.entry_cedula = tk.Entry(self.ventana, width=30)
         self.entry_cedula.pack(pady=5)
 
-        """tk.Label(self.ventana, text="Turno:").pack(pady=5)
-        self.entry_turno = tk.Entry(self.ventana, width=30)
-        self.entry_turno.pack(pady=5)
+        tk.Label(self.ventana, text="Contraseña:").pack(pady=5)
+        self.entry_contrasenia = tk.Entry(self.ventana, width=30)
+        self.entry_contrasenia.pack(pady=5)
 
-        tk.Label(self.ventana, text="Ruta asignada:").pack(pady=5)
+        """tk.Label(self.ventana, text="Ruta asignada:").pack(pady=5)
         self.entry_ruta_asignada = tk.Entry(self.ventana, width=30)
         self.entry_ruta_asignada.pack(pady=5)"""
 
@@ -48,6 +48,7 @@ class Registrar_empleado_GUI:
         nombre = self.entry_nombre.get().strip().lower()
         apellido = self.entry_apellido.get().strip().lower()
         cedula = self.entry_cedula.get().strip()
+        contrasenia = self.entry_contrasenia.get().strip()
 
         # Verificar que no haya campos vacíos
         if not nombre or not apellido or not cedula:
@@ -68,6 +69,9 @@ class Registrar_empleado_GUI:
         # Si no existe, agregar el empleado al archivo
         with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'a') as archivo:
             archivo.write(f"{nombre} {apellido} {cedula} Disponible\n")
+
+        with open('Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt', 'a') as archivo:
+            archivo.write(f"{cedula} {contrasenia} Empleado\n")
         
         messagebox.showinfo("Éxito", "Empleado agregado correctamente.")
         
@@ -75,8 +79,8 @@ class Registrar_empleado_GUI:
         self.entry_nombre.delete(0, tk.END)
         self.entry_apellido.delete(0, tk.END)
         self.entry_cedula.delete(0, tk.END)
-        """self.entry_turno.delete(0, tk.END)
-        self.entry_ruta_asignada.delete(0, tk.END)"""
+        self.entry_contrasenia.delete(0, tk.END)
+        """self.entry_ruta_asignada.delete(0, tk.END)"""
 
     def abrir_ventana_principal(self):
         """Abre la ventana principal y oculta la de vehiculo temporalmente."""

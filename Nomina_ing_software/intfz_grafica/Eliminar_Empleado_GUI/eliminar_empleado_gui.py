@@ -54,7 +54,7 @@ class Eliminar_empleado_GUI:
         # Revisar si el empleado está en alguna línea
         nueva_lista = []
         for linea in lineas:
-            datos = linea.strip().split(" ")  # Asumiendo que los datos están separados por espacios
+            datos = linea.strip().split(" ")  
             if len(datos) == 3:  # Asegurarse de que tenga los 3 campos necesarios
                 nombre_archivo = datos[0].lower()  # Convertir a minúsculas
                 apellido_archivo = datos[1].lower()  # Convertir a minúsculas
@@ -68,6 +68,30 @@ class Eliminar_empleado_GUI:
         # Si el empleado fue encontrado, escribir el archivo sin esa línea
         if empleado_encontrado:
             with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'w') as archivo:
+                archivo.writelines(nueva_lista)
+        else:
+            messagebox.showerror("Error", "El empleado no existe en el archivo.")
+        
+
+        empleado_encontrado = False
+        with open('Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt', 'r') as archivo:
+            lineas = archivo.readlines()
+
+        # Revisar si el empleado está en alguna línea
+        nueva_lista = []
+        for linea in lineas:
+            datos = linea.strip().split(" ") 
+            if len(datos) == 3:  # Asegurarse de que tenga los 3 campos necesarios
+                cedula_archivo = datos[0]  # La cédula se compara tal cual
+                # Comparar sin importar mayúsculas y minúsculas
+                if cedula == cedula_archivo:
+                    empleado_encontrado = True
+                    continue  # Saltar esta línea para eliminarla
+            nueva_lista.append(linea)
+
+        # Si el empleado fue encontrado, escribir el archivo sin esa línea
+        if empleado_encontrado:
+            with open('Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt', 'w') as archivo:
                 archivo.writelines(nueva_lista)
             messagebox.showinfo("Éxito", "Empleado eliminado correctamente.")
         else:

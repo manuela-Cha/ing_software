@@ -5,7 +5,7 @@ from intfz_grafica.login.login import Login
 """Carga.carga_empleados_existentes()
 Carga.carga_vehiculos_existentes()
 Carga.carga_rutas_existentes()"""
-Carga.carga_admins_existentes()
-Carga.limpiar_txt_grupos()
+Carga.carga_usuarios_existentes()
+#Carga.limpiar_txt_grupos()
 
 Login()
