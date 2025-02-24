@@ -201,6 +201,49 @@ class Ventana_Empleado_GUI(Tk):
         except Exception as e:
             messagebox.showerror("Error", f"Error al actualizar el estado de los empleados: {str(e)}")
 
+
+    def actualizar_rutas(self):
+        """
+        Actualiza el archivo de rutas.txt, cambiando el estado de la ruta del empleado actual
+        de 'Cubierta' a 'Por_cubrir' y eliminando los integrantes del equipo.
+        """
+        try:
+            ruta_actualizada = False
+            with open('Nomina_ing_software/archivos_de_texto/rutas.txt', 'r') as archivo:
+                lineas = archivo.readlines()
+                
+            with open('Nomina_ing_software/archivos_de_texto/rutas.txt', 'w') as archivo:
+                for linea in lineas:
+                    # Separar la línea en partes: nombre de ruta, estado y equipo
+                    partes = linea.strip().split(" ", 2)  # Máximo 2 splits para mantener el equipo junto
+                    
+                    if len(partes) == 3:  # Si la línea tiene todas las partes esperadas
+                        nombre_ruta, estado, equipo = partes
+                        
+                        # Si la ruta está cubierta, verificar si el empleado está en el equipo
+                        if estado == "Cubierta":
+                            # Buscar la cédula del empleado en el equipo
+                            cedula_buscar = f"(CC: {self.cedula_empleado})"
+                            if cedula_buscar in equipo:
+                                # Actualizar el estado y limpiar el equipo
+                                archivo.write(f"{nombre_ruta} Por_cubrir _\n")
+                                ruta_actualizada = True
+                            else:
+                                # Mantener la línea sin cambios
+                                archivo.write(linea)
+                        else:
+                            # Mantener la línea sin cambios
+                            archivo.write(linea)
+                    else:
+                        # Si la línea no tiene el formato esperado, mantenerla sin cambios
+                        archivo.write(linea)
+                        
+            if not ruta_actualizada:
+                messagebox.showwarning("Advertencia", "No se encontró ninguna ruta asignada al empleado.")
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al actualizar el archivo de rutas: {str(e)}")
+
     def trabajo_confirmado(self):
         if messagebox.askyesno("Confirmación", "¿Está seguro de que desea confirmar el trabajo y eliminar el grupo?"):
             try:
@@ -211,6 +254,7 @@ class Ventana_Empleado_GUI(Tk):
                 # Realizar las actualizaciones
                 self.actualizar_vehiculo()
                 self.actualizar_empleados()
+                self.actualizar_rutas()
                 self.eliminar_grupo()
                 
                 # Actualizar la interfaz

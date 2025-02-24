@@ -105,6 +105,7 @@ class Formar_Grupo_GUI(Tk):
             for trabajador in trabajadores_seleccionados:
                 archivo.write(f"- {trabajador} (CC: {cedulas[trabajador]})\n")
             archivo.write(f"Vehiculo asignado: {vehiculo_seleccionado}\n")
+            archivo.write(f"Estado: Disponible\n")
             archivo.write("-" * 50 + "\n")
 
     def actualizacion_archivo(self, trabajadores_seleccionados, vehiculo_seleccionado):

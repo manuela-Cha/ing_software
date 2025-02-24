@@ -1,11 +1,9 @@
 
-
-GRUPO CREADO EN FECHA: 2025-02-19
+GRUPO CREADO EN FECHA: 2025-02-23
 Integrantes:
-- juan lopez (CC: 1234567)
-- Juan perea (CC: 98760)
-- Carla Henao (CC: 123456789)
-Vehiculo asignado: 54321
+- Jonhatan Cuartas (CC: 12)
+- Alan Mena (CC: 1234)
+- Matiux Perez (CC: 123456)
+Vehiculo asignado: 123456
+Estado: Ocupado
 --------------------------------------------------
-
-

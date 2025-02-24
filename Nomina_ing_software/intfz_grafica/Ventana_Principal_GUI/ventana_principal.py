@@ -4,6 +4,7 @@ from intfz_grafica.Eliminar_Empleado_GUI.eliminar_empleado_gui import Eliminar_e
 from intfz_grafica.Registrar_Empleado_GUI.registrar_empleado_gui import Registrar_empleado_GUI
 from intfz_grafica.Registrar_Vehiculo_GUI.registrar_vehiculo_gui import RegistrarvehiculoGUI
 from intfz_grafica.Formar_Grupo_GUI.Formar_grupo import Formar_Grupo_GUI
+from intfz_grafica.Asignar_rutas_GUI.Asignar_rutas import GestorGruposRutasGUI
 from tkinter import messagebox
 
 class Ventana_principal:
@@ -55,6 +56,8 @@ class Ventana_principal:
         RegistrarvehiculoGUI()
 
     def asignar_ruta(self):
+        self.ventana.withdraw()
+        GestorGruposRutasGUI()
         print("Función para asignar ruta")
 
     def abrir_estado_vehiculo(self):
