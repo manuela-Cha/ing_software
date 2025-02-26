@@ -1,4 +1,4 @@
-Ruta_Lunes_jueves Cubierta - Jonhatan Cuartas (CC: 12)-- Alan Mena (CC: 1234)-- Matiux Perez (CC: 123456)
+Ruta_Lunes_jueves Por_cubrir _
 Ruta_Martes_viernes Por_cubrir _
 Ruta_Miercoles_sabado Por_cubrir _
 Ruta_Lunes_miercoles_Viernes Por_cubrir _
