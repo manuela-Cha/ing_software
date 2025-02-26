@@ -1,0 +1,9 @@
+
+GRUPO CREADO EN FECHA: 2025-02-26
+Integrantes:
+- Jonhatan Cuartas (CC: 12)
+- Alan Mena (CC: 1234)
+- Matiux Perez (CC: 123456)
+Vehiculo asignado: 54321
+Estado: Disponible
+--------------------------------------------------

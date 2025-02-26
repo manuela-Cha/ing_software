@@ -55,7 +55,7 @@ class Eliminar_empleado_GUI:
         nueva_lista = []
         for linea in lineas:
             datos = linea.strip().split(" ")  
-            if len(datos) == 3:  # Asegurarse de que tenga los 3 campos necesarios
+            if len(datos) == 4:  # Asegurarse de que tenga los 3 campos necesarios
                 nombre_archivo = datos[0].lower()  # Convertir a minúsculas
                 apellido_archivo = datos[1].lower()  # Convertir a minúsculas
                 cedula_archivo = datos[2]  # La cédula se compara tal cual
@@ -70,7 +70,8 @@ class Eliminar_empleado_GUI:
             with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'w') as archivo:
                 archivo.writelines(nueva_lista)
         else:
-            messagebox.showerror("Error", "El empleado no existe en el archivo.")
+            print(nombre, apellido, cedula, "|", nombre_archivo, apellido_archivo, cedula_archivo) 
+            messagebox.showerror("Error","El empleado no existe en el archivo.")
         
 
         empleado_encontrado = False

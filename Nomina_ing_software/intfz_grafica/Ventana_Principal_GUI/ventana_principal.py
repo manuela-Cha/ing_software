@@ -5,6 +5,8 @@ from intfz_grafica.Registrar_Empleado_GUI.registrar_empleado_gui import Registra
 from intfz_grafica.Registrar_Vehiculo_GUI.registrar_vehiculo_gui import RegistrarvehiculoGUI
 from intfz_grafica.Formar_Grupo_GUI.Formar_grupo import Formar_Grupo_GUI
 from intfz_grafica.Asignar_rutas_GUI.Asignar_rutas import GestorGruposRutasGUI
+from intfz_grafica.Visualizador_Empleados_GUI.Visualizador_empleados import VisualizadorEmpleados
+from intfz_grafica.Visualizador_Vehiculos_GUI.visualizador_de_vehiculos import VisualizadorVehiculos
 from tkinter import messagebox
 
 class Ventana_principal:
@@ -26,6 +28,8 @@ class Ventana_principal:
             ("Registrar nuevo vehículo", self.registrar_vehiculo),
             ("Asignar ruta", self.asignar_ruta),
             ("Registrar estado del vehículo", self.abrir_estado_vehiculo),
+            ("Visualizar empleados", self.vizualizar_empleados),
+            ("Visualizar vehiculos", self.visualizador_vehiculos),
             ("Cerrar", self.cerrar)
         ]
 
@@ -64,6 +68,16 @@ class Ventana_principal:
         """Abre la ventana de EstadoVehiculo y oculta la principal temporalmente."""
         self.ventana.withdraw()  # Ocultar la ventana principal
         EstadoVehiculo()  # Pasar la referencia de la ventana principal
+
+    def vizualizar_empleados(self):
+        """Abre la ventana de VisualizarEmpleados y oculta la principal temporalmente."""
+        self.ventana.withdraw()
+        VisualizadorEmpleados.iniciar_aplicacion()
+
+    def visualizador_vehiculos(self):
+        """Abre la ventana de VisualizadorVehiculos y oculta la principal temporalmente."""
+        self.ventana.withdraw()
+        VisualizadorVehiculos.iniciar_aplicacion()
 
     def cerrar(self):
         respuesta = messagebox.askyesno(

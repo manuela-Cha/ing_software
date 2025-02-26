@@ -1,4 +1,4 @@
 123456 Ocupado
-54321 Disponible
+54321 Ocupado
 09875 Disponible
 7890 Disponible

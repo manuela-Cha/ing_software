@@ -71,7 +71,7 @@ class Registrar_empleado_GUI:
             archivo.write(f"{nombre} {apellido} {cedula} Disponible\n")
 
         with open('Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt', 'a') as archivo:
-            archivo.write(f"{cedula} {contrasenia} Empleado\n")
+            archivo.write(f"{cedula} {contrasenia} empleado\n")
         
         messagebox.showinfo("Éxito", "Empleado agregado correctamente.")
         
