@@ -8,7 +8,7 @@ class VisualizadorEmpleados:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Visualización de Empleados")
-        self.root.geometry("800x600")
+        self.root.geometry("800x650")
         self.root.minsize(700, 650)  # Tamaño mínimo para mejor experiencia
         
         # Definir colores
@@ -183,6 +183,20 @@ class VisualizadorEmpleados:
                                   activeforeground=self.color_white,
                                   command=self.cargar_empleados)
         refresh_button.pack(side=tk.LEFT, padx=5)
+
+        # Botones con estilo moderno
+        out_button = tk.Button(button_frame, text="Salir", 
+                                  bg=self.color_secondary, fg=self.color_white,
+                                  font=self.font_button, bd=0, padx=10, pady=8,
+                                  activebackground=self.color_accent,
+                                  activeforeground=self.color_white,
+                                  command=self.salir)
+        out_button.pack(side=tk.LEFT, padx=20)
+
+    def salir(self):
+        self.root.destroy()
+        from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
+        Ventana_principal()
     
     def create_footer(self):
         """Crea el pie de página."""

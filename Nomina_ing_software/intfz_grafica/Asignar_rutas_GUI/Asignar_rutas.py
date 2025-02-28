@@ -175,7 +175,7 @@ class GestorGruposRutasGUI:
                command=self.actualizar_todo, width=15).pack(side=LEFT, padx=5)
         
         Button(frame_botones, text="Salir", 
-               command=self.ventana.quit, width=15).pack(side=LEFT, padx=5)
+               command=self.salir , width=15).pack(side=LEFT, padx=5)
         
         self.grupos_dict = {}
         self.rutas_dict = {}
@@ -183,6 +183,11 @@ class GestorGruposRutasGUI:
         self.actualizar_todo()
         
         self.ventana.mainloop()
+
+    def salir(self):
+        self.ventana.destroy()
+        from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
+        Ventana_principal()
     
     def actualizar_todo(self):
         self.actualizar_estado()
