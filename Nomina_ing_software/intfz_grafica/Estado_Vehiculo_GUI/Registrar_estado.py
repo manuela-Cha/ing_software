@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import tkinter.font as font
 
 class EstadoVehiculo:
     def __init__(self):
@@ -11,37 +12,119 @@ class EstadoVehiculo:
         self.ventana.title("Estado de Vehículo")
         self.ventana.geometry("500x450")
 
+        # Definir colores
+        self.color_primary = "#2ECC71"      # Verde principal
+        self.color_secondary = "#27AE60"    # Verde secundario
+        self.color_accent = "#1E8449"       # Verde oscuro para acentos
+        self.color_bg = "#F5F5F5"           # Fondo gris muy claro
+        self.color_text = "#2C3E50"         # Texto oscuro
+        self.color_white = "#FFFFFF"        # Blanco puro
+
+        # Crear fuentes personalizadas
+        self.font_title = font.Font(family="Helvetica", size=16, weight="bold")
+        self.font_subtitle = font.Font(family="Helvetica", size=12, weight="bold")
+        self.font_button = font.Font(family="Helvetica", size=10, weight="bold")
+        self.font_normal = font.Font(family="Helvetica", size=10)
+
+        # Configurar el color de fondo de la ventana principal
+        self.ventana.configure(bg=self.color_bg)
+
         # Etiqueta y campo para la placa
-        tk.Label(self.ventana, text="Placa:").pack(pady=5)
-        self.entry_placa = tk.Entry(self.ventana, width=30)
+        label_placa = tk.Label(self.ventana, 
+                              text="Placa:", 
+                              bg=self.color_bg,
+                              fg=self.color_text,
+                              font=self.font_subtitle)
+        label_placa.pack(pady=5)
+        
+        self.entry_placa = tk.Entry(self.ventana, 
+                                  width=30,
+                                  bg=self.color_white,
+                                  fg=self.color_text,
+                                  font=self.font_normal,
+                                  insertbackground=self.color_text)
         self.entry_placa.pack(pady=5)
 
         self.estado_vehiculo = None
 
         # Etiqueta para seleccionar estado
-        tk.Label(self.ventana, text="Seleccione el estado del vehículo:").pack(pady=5)
+        label_estado = tk.Label(self.ventana, 
+                               text="Seleccione el estado del vehículo:", 
+                               bg=self.color_bg,
+                               fg=self.color_text,
+                               font=self.font_subtitle)
+        label_estado.pack(pady=5)
 
         # Frame para los botones de estado
-        frame_botones = tk.Frame(self.ventana)
+        frame_botones = tk.Frame(self.ventana, bg=self.color_bg)
         frame_botones.pack(pady=5)
 
-        self.boton_optimo = tk.Button(frame_botones, text="Disponible", width=12, command=lambda: self.seleccionar_estado("Disponible"))
+        self.boton_optimo = tk.Button(frame_botones, 
+                                    text="Disponible", 
+                                    width=12, 
+                                    command=lambda: self.seleccionar_estado("Disponible"),
+                                    bg=self.color_primary,
+                                    fg=self.color_white,
+                                    font=self.font_button,
+                                    activebackground=self.color_secondary,
+                                    activeforeground=self.color_white,
+                                    relief="flat")
         self.boton_optimo.pack(side=tk.LEFT, padx=5)
 
-        self.boton_no_optimo = tk.Button(frame_botones, text="No-optimo", width=12, command=lambda: self.seleccionar_estado("No-optimo"))
+        self.boton_no_optimo = tk.Button(frame_botones, 
+                                       text="No-optimo", 
+                                       width=12, 
+                                       command=lambda: self.seleccionar_estado("No-optimo"),
+                                       bg=self.color_primary,
+                                       fg=self.color_white,
+                                       font=self.font_button,
+                                       activebackground=self.color_secondary,
+                                       activeforeground=self.color_white,
+                                       relief="flat")
         self.boton_no_optimo.pack(side=tk.LEFT, padx=5)
 
         # Botón para registrar
-        self.boton_registrar = tk.Button(self.ventana, text="Registrar estado del vehiculo", command=self.registrar_vehiculo)
+        self.boton_registrar = tk.Button(self.ventana, 
+                                       text="Registrar estado del vehiculo", 
+                                       command=self.registrar_vehiculo,
+                                       bg=self.color_primary,
+                                       fg=self.color_white,
+                                       font=self.font_button,
+                                       activebackground=self.color_secondary,
+                                       activeforeground=self.color_white,
+                                       relief="flat",
+                                       padx=10,
+                                       pady=5)
         self.boton_registrar.pack(pady=10)
 
-        #Botón para cerrar
-        self.boton_cerrar = tk.Button(self.ventana, text="Cerrar", command=self.abrir_ventana_principal)
+        # Botón para cerrar
+        self.boton_cerrar = tk.Button(self.ventana, 
+                                    text="Cerrar", 
+                                    command=self.abrir_ventana_principal,
+                                    bg=self.color_accent,
+                                    fg=self.color_white,
+                                    font=self.font_button,
+                                    activebackground=self.color_secondary,
+                                    activeforeground=self.color_white,
+                                    relief="flat",
+                                    padx=10,
+                                    pady=5)
         self.boton_cerrar.pack(pady=10)
 
         # Área para mostrar vehículos existentes
-        tk.Label(self.ventana, text="Vehículos registrados:").pack(pady=5)
-        self.lista_vehiculos = tk.Listbox(self.ventana, width=50, height=10)
+        label_vehiculos = tk.Label(self.ventana, 
+                                 text="Vehículos registrados:", 
+                                 bg=self.color_bg,
+                                 fg=self.color_text,
+                                 font=self.font_subtitle)
+        label_vehiculos.pack(pady=5)
+        
+        self.lista_vehiculos = tk.Listbox(self.ventana, 
+                                        width=50, 
+                                        height=10,
+                                        bg=self.color_white,
+                                        fg=self.color_text,
+                                        font=self.font_normal)
         self.lista_vehiculos.pack(pady=5)
 
         self.cargar_vehiculos()  # Cargar vehículos al iniciar
@@ -53,11 +136,11 @@ class EstadoVehiculo:
         self.estado_vehiculo = estado
 
         if estado == "Disponible":
-            self.boton_optimo.config(bg="light blue", relief=tk.SUNKEN)
-            self.boton_no_optimo.config(bg="SystemButtonFace", relief=tk.RAISED)
+            self.boton_optimo.config(bg=self.color_secondary, relief=tk.SUNKEN)
+            self.boton_no_optimo.config(bg=self.color_primary, relief=tk.RAISED)
         else:
-            self.boton_optimo.config(bg="SystemButtonFace", relief=tk.RAISED)
-            self.boton_no_optimo.config(bg="light blue", relief=tk.SUNKEN)
+            self.boton_optimo.config(bg=self.color_primary, relief=tk.RAISED)
+            self.boton_no_optimo.config(bg=self.color_secondary, relief=tk.SUNKEN)
 
     def cargar_vehiculos(self):
         """Carga los vehículos desde el archivo y los muestra en la lista."""
@@ -113,3 +196,6 @@ class EstadoVehiculo:
         self.ventana.withdraw()  # Ocultar la ventana principal
         from Nomina_ing_software.intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()
+
+if __name__ == "__main__":
+    EstadoVehiculo()

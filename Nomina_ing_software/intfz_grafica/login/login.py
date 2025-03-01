@@ -82,7 +82,7 @@ class Login:
                             self.ventana.destroy()  # Cierra la ventana de login
                             if role.lower() == "admin":
                                 from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
-                                #Ventana_principal()
+                                Ventana_principal()
                             else:
                                 from intfz_grafica.Ventana_Empleado_GUI.ventana_empleado import Ventana_Empleado_GUI
                                 Ventana_Empleado_GUI(usuario)

@@ -1,34 +1,134 @@
 from tkinter import *
 from tkinter import messagebox
 from intfz_grafica.login.login import Login
+import tkinter.font as font
 
 class Ventana_Empleado_GUI(Tk):
     def __init__(self, cedula_empleado):
         super().__init__()
         self.cedula_empleado = cedula_empleado
         self.title("Portal del Empleado")
-        self.geometry("600x600")
+        self.geometry("700x650")  # Slightly larger window for better layout
+        self.resizable(False, False)  # Prevent resizing
+
+        # Definir colores
+        self.color_primary = "#2ECC71"      # Verde principal
+        self.color_secondary = "#27AE60"    # Verde secundario
+        self.color_accent = "#1E8449"       # Verde oscuro para acentos
+        self.color_bg = "#F5F5F5"           # Fondo gris muy claro
+        self.color_text = "#2C3E50"         # Texto oscuro
+        self.color_white = "#FFFFFF"        # Blanco puro
+        self.color_border = "#D5D8DC"       # Gris claro para bordes
+
+        # Crear fuentes personalizadas
+        self.font_title = font.Font(family="Helvetica", size=18, weight="bold")
+        self.font_subtitle = font.Font(family="Helvetica", size=14, weight="bold")
+        self.font_button = font.Font(family="Helvetica", size=11, weight="bold")
+        self.font_normal = font.Font(family="Helvetica", size=11)
+        self.font_small = font.Font(family="Helvetica", size=9)
+
+        # Configurar el color de fondo de la ventana principal
+        self.configure(bg=self.color_bg)
         
-        self.main_frame = Frame(self, padx=20, pady=20)
+        # Main container frame
+        self.main_frame = Frame(self, bg=self.color_bg, padx=20, pady=20)
         self.main_frame.pack(expand=True, fill='both')
+
+        # Header section
+        self.header_frame = Frame(self.main_frame, bg=self.color_primary, pady=15, padx=20)
+        self.header_frame.pack(fill='x')
         
-        Label(self.main_frame, text="Portal del Empleado", font=('Arial', 18, 'bold')).pack(pady=20)
+        Label(self.header_frame,
+              text="Portal del Empleado",
+              font=self.font_title,
+              bg=self.color_primary,
+              fg=self.color_white).pack(side=LEFT)
         
+        Label(self.header_frame,
+              text="Bienvenido",
+              font=self.font_small,
+              bg=self.color_primary,
+              fg=self.color_white).pack(side=RIGHT)
+
+        # Info empleado section
         self.info_empleado = self.obtener_info_empleado()
         
-        info_frame = Frame(self.main_frame)
-        info_frame.pack(pady=20)
+        self.info_container = Frame(self.main_frame, bg=self.color_white, 
+                                  bd=1, relief="solid", pady=15, padx=20)
+        self.info_container.pack(fill='x', pady=(20, 10))
         
-        Label(info_frame, text=f"Empleado: {self.info_empleado['nombre']} {self.info_empleado['apellido']}", font=('Arial', 12)).pack()
-        Label(info_frame, text=f"Cédula: {self.cedula_empleado}", font=('Arial', 12)).pack()
+        Label(self.info_container,
+              text="Información Personal",
+              font=self.font_subtitle,
+              bg=self.color_white,
+              fg=self.color_text).pack(anchor='w', pady=(0, 10))
         
-        self.estado_frame = Frame(self.main_frame)
-        self.estado_frame.pack(pady=20)
+        info_frame = Frame(self.info_container, bg=self.color_white)
+        info_frame.pack(fill='x')
+        
+        Label(info_frame,
+              text=f"Nombre: {self.info_empleado['nombre']} {self.info_empleado['apellido']}",
+              font=self.font_normal,
+              bg=self.color_white,
+              fg=self.color_text).pack(anchor='w', pady=2)
+        Label(info_frame,
+              text=f"Cédula: {self.cedula_empleado}",
+              font=self.font_normal,
+              bg=self.color_white,
+              fg=self.color_text).pack(anchor='w', pady=2)
+        Label(info_frame,
+              text=f"Estado: {self.info_empleado['estado']}",
+              font=self.font_normal,
+              bg=self.color_white,
+              fg=self.color_text).pack(anchor='w', pady=2)
+
+        # Estado del grupo section
+        self.estado_container = Frame(self.main_frame, bg=self.color_white,
+                                    bd=1, relief="solid", pady=15, padx=20)
+        self.estado_container.pack(fill='x', pady=10)
+        
+        Label(self.estado_container,
+              text="Estado del Grupo",
+              font=self.font_subtitle,
+              bg=self.color_white,
+              fg=self.color_text).pack(anchor='w', pady=(0, 10))
+        
+        self.estado_frame = Frame(self.estado_container, bg=self.color_white)
+        self.estado_frame.pack(fill='x')
         
         self.verificar_estado_grupo()
+
+        # Buttons section
+        self.button_frame = Frame(self.main_frame, bg=self.color_bg)
+        self.button_frame.pack(fill='x', pady=20)
         
-        #Button(self.main_frame, text="Actualizar Estado", command=self.verificar_estado_grupo, font=('Arial', 11)).pack(pady=10)
-        Button(self.main_frame, text="Cerrar Sesión", command=self.cerrar_sesion, font=('Arial', 11)).pack(pady=10)
+        Button(self.button_frame,
+               text="Actualizar Estado",
+               command=self.verificar_estado_grupo,
+               font=self.font_button,
+               bg=self.color_primary,
+               fg=self.color_white,
+               activebackground=self.color_secondary,
+               activeforeground=self.color_white,
+               relief="flat",
+               padx=15,
+               pady=8,
+               bd=0,
+               cursor="hand2").pack(side=LEFT, padx=5)
+        
+        Button(self.button_frame,
+               text="Cerrar Sesión",
+               command=self.cerrar_sesion,
+               font=self.font_button,
+               bg=self.color_accent,
+               fg=self.color_white,
+               activebackground=self.color_secondary,
+               activeforeground=self.color_white,
+               relief="flat",
+               padx=15,
+               pady=8,
+               bd=0,
+               cursor="hand2").pack(side=RIGHT, padx=5)
         
         self.mainloop()
     
@@ -44,10 +144,6 @@ class Ventana_Empleado_GUI(Tk):
         return {'nombre': 'Desconocido', 'apellido': '', 'estado': 'Desconocido'}
     
     def verificar_estado_grupo(self):
-        """
-        Verifica y muestra el estado actual del grupo del empleado
-        """
-        # Limpiamos primero todos los widgets existentes
         for widget in self.estado_frame.winfo_children():
             widget.destroy()
         
@@ -67,13 +163,11 @@ class Ventana_Empleado_GUI(Tk):
                         grupo_inicio = i
                         i += 1
                         
-                        # Guardar el grupo actual temporalmente
                         grupo_temp = []
                         while i < len(lineas) and not lineas[i].strip().startswith("-" * 50):
                             grupo_temp.append(lineas[i].strip())
                             i += 1
                         
-                        # Verificar si el empleado está en este grupo usando la cédula exacta
                         for linea_grupo in grupo_temp:
                             if "(CC:" in linea_grupo:
                                 cedula_en_grupo = linea_grupo.split("(CC: ")[1].split(")")[0]
@@ -83,7 +177,6 @@ class Ventana_Empleado_GUI(Tk):
                                     grupo_actual.extend(grupo_temp)
                                     self.info_grupo = grupo_actual
                                     
-                                    # Obtener el vehículo asignado
                                     for linea_vehiculo in grupo_temp:
                                         if linea_vehiculo.startswith("Vehiculo asignado:"):
                                             self.vehiculo_asignado = linea_vehiculo.split(": ")[1].strip()
@@ -101,50 +194,74 @@ class Ventana_Empleado_GUI(Tk):
             messagebox.showerror("Error", f"Error al leer archivo de grupos: {str(e)}")
             return
     
-        # Mostramos la información en la interfaz
         self.mostrar_estado_grupo()
 
     def mostrar_estado_grupo(self):
-        """Método separado para mostrar el estado del grupo en la interfaz"""
         if self.esta_en_grupo:
-            Label(self.estado_frame, text="Estado: Asignado a un grupo", font=('Arial', 12, 'bold'), fg='green').pack(pady=10)
-            grupo_frame = Frame(self.estado_frame)
-            grupo_frame.pack(pady=10)
+            status_frame = Frame(self.estado_frame, bg=self.color_primary, pady=5, padx=10)
+            status_frame.pack(fill='x', pady=(0, 10))
+            
+            Label(status_frame,
+                  text="Asignado a un grupo",
+                  font=self.font_subtitle,
+                  bg=self.color_primary,
+                  fg=self.color_white).pack()
+            
+            grupo_frame = Frame(self.estado_frame, bg=self.color_white)
+            grupo_frame.pack(fill='x', pady=5)
+            
             for info in self.info_grupo:
-                Label(grupo_frame, text=info, font=('Arial', 11)).pack()
-            Button(self.estado_frame, text="Trabajo Confirmado", command=self.trabajo_confirmado, font=('Arial', 11), fg='white', bg='red').pack(pady=10)
+                Label(grupo_frame,
+                      text=info,
+                      font=self.font_normal,
+                      bg=self.color_white,
+                      fg=self.color_text).pack(anchor='w', pady=2)
+            
+            Button(self.estado_frame,
+                   text="Confirmar Trabajo Completado",
+                   command=self.trabajo_confirmado,
+                   font=self.font_button,
+                   bg=self.color_accent,
+                   fg=self.color_white,
+                   activebackground=self.color_secondary,
+                   activeforeground=self.color_white,
+                   relief="flat",
+                   padx=15,
+                   pady=8,
+                   bd=0,
+                   cursor="hand2").pack(pady=10)
         else:
-            Label(self.estado_frame, text="Estado: No asignado a ningún grupo", font=('Arial', 12, 'bold'), fg='blue').pack(pady=10)
+            status_frame = Frame(self.estado_frame, bg=self.color_secondary, pady=5, padx=10)
+            status_frame.pack(fill='x', pady=(0, 10))
+            
+            Label(status_frame,
+                  text="No asignado a ningún grupo",
+                  font=self.font_subtitle,
+                  bg=self.color_secondary,
+                  fg=self.color_white).pack()
 
-    
     def actualizar_interfaz(self):
-        """
-        Actualiza la interfaz después de confirmar el trabajo y eliminar el grupo
-        """
-        # Resetear las variables de estado
         self.esta_en_grupo = False
         self.info_grupo = []
         self.vehiculo_asignado = None
         
-        # Limpiar el estado_frame actual
         for widget in self.estado_frame.winfo_children():
             widget.destroy()
         
-        # Mostrar el nuevo estado (no asignado)
-        Label(self.estado_frame, 
-            text="Estado: No asignado a ningún grupo", 
-            font=('Arial', 12, 'bold'), 
-            fg='blue').pack(pady=10)
+        status_frame = Frame(self.estado_frame, bg=self.color_secondary, pady=5, padx=10)
+        status_frame.pack(fill='x', pady=(0, 10))
+        
+        Label(status_frame,
+              text="No asignado a ningún grupo",
+              font=self.font_subtitle,
+              bg=self.color_secondary,
+              fg=self.color_white).pack()
         
         messagebox.showinfo("Éxito", "El grupo ha sido eliminado correctamente.")
         self.update_idletasks()
 
     def actualizar_vehiculo(self):
-        """
-        Actualiza el estado del vehículo asignado al grupo actual a 'Disponible'
-        """
         try:
-            # Obtener el vehículo del grupo actual
             vehiculo_grupo = None
             for linea in self.info_grupo:
                 if linea.startswith("Vehiculo asignado:"):
@@ -155,7 +272,6 @@ class Ventana_Empleado_GUI(Tk):
                 messagebox.showerror("Error", "No se encontró el vehículo asignado al grupo")
                 return
                 
-            # Actualizar el archivo de vehículos
             with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'r') as archivo:
                 lineas = archivo.readlines()
                 
@@ -171,11 +287,7 @@ class Ventana_Empleado_GUI(Tk):
             messagebox.showerror("Error", f"Error al actualizar el estado del vehículo: {str(e)}")
 
     def actualizar_empleados(self):
-        """
-        Actualiza el estado de los empleados del grupo actual a 'Disponible'
-        """
         try:
-            # Obtener las cédulas de los empleados del grupo actual
             empleados_grupo = [
                 x.split("(")[1].split(")")[0].split(": ")[1] 
                 for x in self.info_grupo 
@@ -186,7 +298,6 @@ class Ventana_Empleado_GUI(Tk):
                 messagebox.showerror("Error", "No se encontraron empleados en el grupo")
                 return
                 
-            # Actualizar el archivo de empleados
             with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
                 lineas = archivo.readlines()
                 
@@ -201,12 +312,7 @@ class Ventana_Empleado_GUI(Tk):
         except Exception as e:
             messagebox.showerror("Error", f"Error al actualizar el estado de los empleados: {str(e)}")
 
-
     def actualizar_rutas(self):
-        """
-        Actualiza el archivo de rutas.txt, cambiando el estado de la ruta del empleado actual
-        de 'Cubierta' a 'Por_cubrir' y eliminando los integrantes del equipo.
-        """
         try:
             ruta_actualizada = False
             with open('Nomina_ing_software/archivos_de_texto/rutas.txt', 'r') as archivo:
@@ -214,28 +320,19 @@ class Ventana_Empleado_GUI(Tk):
                 
             with open('Nomina_ing_software/archivos_de_texto/rutas.txt', 'w') as archivo:
                 for linea in lineas:
-                    # Separar la línea en partes: nombre de ruta, estado y equipo
-                    partes = linea.strip().split(" ", 2)  # Máximo 2 splits para mantener el equipo junto
-                    
-                    if len(partes) == 3:  # Si la línea tiene todas las partes esperadas
+                    partes = linea.strip().split(" ", 2)
+                    if len(partes) == 3:
                         nombre_ruta, estado, equipo = partes
-                        
-                        # Si la ruta está cubierta, verificar si el empleado está en el equipo
                         if estado == "Cubierta":
-                            # Buscar la cédula del empleado en el equipo
                             cedula_buscar = f"(CC: {self.cedula_empleado})"
                             if cedula_buscar in equipo:
-                                # Actualizar el estado y limpiar el equipo
                                 archivo.write(f"{nombre_ruta} Por_cubrir _\n")
                                 ruta_actualizada = True
                             else:
-                                # Mantener la línea sin cambios
                                 archivo.write(linea)
                         else:
-                            # Mantener la línea sin cambios
                             archivo.write(linea)
                     else:
-                        # Si la línea no tiene el formato esperado, mantenerla sin cambios
                         archivo.write(linea)
                         
             if not ruta_actualizada:
@@ -247,17 +344,14 @@ class Ventana_Empleado_GUI(Tk):
     def trabajo_confirmado(self):
         if messagebox.askyesno("Confirmación", "¿Está seguro de que desea confirmar el trabajo y eliminar el grupo?"):
             try:
-                # Guardar una copia de la información del grupo antes de eliminarlo
                 grupo_actual = self.info_grupo.copy()
                 vehiculo_actual = self.vehiculo_asignado
                 
-                # Realizar las actualizaciones
                 self.actualizar_vehiculo()
                 self.actualizar_empleados()
                 self.actualizar_rutas()
                 self.eliminar_grupo()
                 
-                # Actualizar la interfaz
                 self.after(100, self.actualizar_interfaz)
                 
             except Exception as e:
@@ -269,7 +363,6 @@ class Ventana_Empleado_GUI(Tk):
             Login()
 
     def obtener_datos_empleado(self):
-        """Obtiene los datos completos del empleado desde el archivo de empleados"""
         try:
             with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
                 for linea in archivo:
@@ -286,9 +379,6 @@ class Ventana_Empleado_GUI(Tk):
         return None
 
     def es_grupo_del_empleado(self, lineas, inicio, fin):
-        """
-        Verifica si el grupo entre los índices dados corresponde al empleado actual
-        """
         for i in range(inicio, fin):
             linea = lineas[i].strip()
             if "(CC:" in linea:
@@ -296,7 +386,6 @@ class Ventana_Empleado_GUI(Tk):
                 if cedula_en_grupo == self.cedula_empleado:
                     return True
         return False
-
 
     def eliminar_grupo(self):
         try:
@@ -306,24 +395,19 @@ class Ventana_Empleado_GUI(Tk):
             with open('Nomina_ing_software/archivos_de_texto/Grupos.txt', 'w') as archivo:
                 i = 0
                 while i < len(lineas):
-                    # Si encontramos el inicio de un grupo
                     if lineas[i].strip().startswith("GRUPO CREADO EN FECHA:"):
                         grupo_inicio = i
                         i += 1
                         
-                        # Encontrar el final del grupo
                         while i < len(lineas) and not lineas[i].strip().startswith("-" * 50):
                             i += 1
                         
-                        # Si llegamos al separador, incluirlo en el rango
                         if i < len(lineas) and lineas[i].strip().startswith("-" * 50):
                             grupo_fin = i + 1
                         else:
                             grupo_fin = i
                         
-                        # Verificar si este es el grupo del empleado usando múltiples criterios
                         if not self.es_grupo_del_empleado(lineas, grupo_inicio, grupo_fin):
-                            # Si no es el grupo del empleado, escribirlo completo
                             archivo.writelines(lineas[grupo_inicio:grupo_fin])
                         
                         i = grupo_fin

@@ -6,6 +6,6 @@ Manuela 12345* admin
 98760 12345* empleado
 123456789 12345* empleado
 100443 12345* empleado
-09876 321* empleado
 1 1 empleado
 wsw 12345* empleado
+12345 12345* empleado

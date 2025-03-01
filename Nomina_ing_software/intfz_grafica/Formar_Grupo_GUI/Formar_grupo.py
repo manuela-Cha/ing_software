@@ -2,13 +2,31 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from datetime import datetime
+import tkinter.font as font
 
 class Formar_Grupo_GUI(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Formación de grupos")
         self.geometry("500x600")
-        
+
+        # Definir colores
+        self.color_primary = "#2ECC71"      # Verde principal
+        self.color_secondary = "#27AE60"    # Verde secundario
+        self.color_accent = "#1E8449"       # Verde oscuro para acentos
+        self.color_bg = "#F5F5F5"           # Fondo gris muy claro
+        self.color_text = "#2C3E50"         # Texto oscuro
+        self.color_white = "#FFFFFF"        # Blanco puro
+
+        # Crear fuentes personalizadas
+        self.font_title = font.Font(family="Helvetica", size=16, weight="bold")
+        self.font_subtitle = font.Font(family="Helvetica", size=12, weight="bold")
+        self.font_button = font.Font(family="Helvetica", size=10, weight="bold")
+        self.font_normal = font.Font(family="Helvetica", size=10)
+
+        # Configurar el color de fondo de la ventana principal
+        self.configure(bg=self.color_bg)
+
         # Obtener listas actualizadas al crear la instancia
         self.trabajadores_disponibles = self.obtener_trabajadores_disponibles()
         self.vehiculos_disponibles = self.obtener_vehiculos_disponibles()
@@ -30,66 +48,143 @@ class Formar_Grupo_GUI(Tk):
         self.trabajador_menus = []
         
         # Frame principal
-        self.main_frame = Frame(self)
+        self.main_frame = Frame(self, bg=self.color_bg)
         self.main_frame.pack(padx=20, pady=20, expand=True, fill='both')
         
         # Título
-        Label(self.main_frame, text="Formación de Grupo de Trabajo", font=('Arial', 14, 'bold')).pack(pady=10)
+        Label(self.main_frame, 
+              text="Formación de Grupo de Trabajo", 
+              font=self.font_title,
+              bg=self.color_bg,
+              fg=self.color_text).pack(pady=10)
         
         # Creación frames de trabajadores
         for i in range(3):
             self.frameTrabajador(i)
         
         # Frame para vehículo
-        self.frameVehiculo = Frame(self.main_frame, pady=10)
-        self.vehiculoLabel = Label(self.frameVehiculo, text="Seleccione el vehículo a asignar")
-        self.vehiculoOpciones = OptionMenu(self.frameVehiculo, self.valorVehiculo, *self.vehiculos_disponibles)
+        self.frameVehiculo = Frame(self.main_frame, pady=10, bg=self.color_bg)
+        self.vehiculoLabel = Label(self.frameVehiculo, 
+                                 text="Seleccione el vehículo a asignar",
+                                 bg=self.color_bg,
+                                 fg=self.color_text,
+                                 font=self.font_subtitle)
+        self.vehiculoOpciones = OptionMenu(self.frameVehiculo, 
+                                         self.valorVehiculo, 
+                                         *self.vehiculos_disponibles)
+        self.vehiculoOpciones.config(bg=self.color_white,
+                                   fg=self.color_text,
+                                   font=self.font_normal,
+                                   activebackground=self.color_secondary,
+                                   activeforeground=self.color_white)
         self.vehiculoLabel.pack()
         self.vehiculoOpciones.pack()
         self.frameVehiculo.pack()
         
         # Frame para fecha
-        self.frameFecha = Frame(self.main_frame, pady=10)
-        Label(self.frameFecha, text="Fecha de creación del grupo").pack()
+        self.frameFecha = Frame(self.main_frame, pady=10, bg=self.color_bg)
+        Label(self.frameFecha, 
+              text="Fecha de creación del grupo",
+              bg=self.color_bg,
+              fg=self.color_text,
+              font=self.font_subtitle).pack()
         
         # Frame para los campos de fecha
-        fecha_campos = Frame(self.frameFecha)
+        fecha_campos = Frame(self.frameFecha, bg=self.color_bg)
         
         # Día
-        Label(fecha_campos, text="Día:").grid(row=0, column=0, padx=5)
+        Label(fecha_campos, 
+              text="Día:", 
+              bg=self.color_bg,
+              fg=self.color_text,
+              font=self.font_normal).grid(row=0, column=0, padx=5)
         dias = [str(i).zfill(2) for i in range(1, 32)]
         self.dia.set(datetime.now().strftime("%d"))
-        ttk.Combobox(fecha_campos, textvariable=self.dia, values=dias, width=3).grid(row=0, column=1)
+        dia_combo = ttk.Combobox(fecha_campos, 
+                               textvariable=self.dia, 
+                               values=dias, 
+                               width=3)
+        dia_combo.grid(row=0, column=1)
         
         # Mes
-        Label(fecha_campos, text="Mes:").grid(row=0, column=2, padx=5)
+        Label(fecha_campos, 
+              text="Mes:", 
+              bg=self.color_bg,
+              fg=self.color_text,
+              font=self.font_normal).grid(row=0, column=2, padx=5)
         meses = [str(i).zfill(2) for i in range(1, 13)]
         self.mes.set(datetime.now().strftime("%m"))
-        ttk.Combobox(fecha_campos, textvariable=self.mes, values=meses, width=3).grid(row=0, column=3)
+        mes_combo = ttk.Combobox(fecha_campos, 
+                               textvariable=self.mes, 
+                               values=meses, 
+                               width=3)
+        mes_combo.grid(row=0, column=3)
         
         # Año
-        Label(fecha_campos, text="Año:").grid(row=0, column=4, padx=5)
+        Label(fecha_campos, 
+              text="Año:", 
+              bg=self.color_bg,
+              fg=self.color_text,
+              font=self.font_normal).grid(row=0, column=4, padx=5)
         anios = [str(i) for i in range(2024, 2035)]
         self.anio.set(datetime.now().strftime("%Y"))
-        ttk.Combobox(fecha_campos, textvariable=self.anio, values=anios, width=5).grid(row=0, column=5)
+        anio_combo = ttk.Combobox(fecha_campos, 
+                                textvariable=self.anio, 
+                                values=anios, 
+                                width=5)
+        anio_combo.grid(row=0, column=5)
+        
+        # Estilizar Combobox
+        style = ttk.Style()
+        style.configure("TCombobox", 
+                       fieldbackground=self.color_white,
+                       background=self.color_white,
+                       foreground=self.color_text)
         
         fecha_campos.pack(pady=5)
         self.frameFecha.pack()
         
         # Botón de confirmación
-        self.confirm = Button(self.main_frame, bg="#AAA000", text="Confirmar selecciones",
-                            command=self.verificacion, pady=5)
+        self.confirm = Button(self.main_frame, 
+                            bg=self.color_primary, 
+                            fg=self.color_white,
+                            text="Confirmar selecciones",
+                            command=self.verificacion,
+                            font=self.font_button,
+                            activebackground=self.color_secondary,
+                            activeforeground=self.color_white,
+                            relief="flat",
+                            padx=10,
+                            pady=5)
         self.confirm.pack(pady=20)
         
         self.mainloop()
 
-    
+    def frameTrabajador(self, number):
+        aux = Frame(self.main_frame, bg=self.color_bg)
+        auxLabel = Label(aux, 
+                        text=f"Trabajador {number + 1}",
+                        bg=self.color_bg,
+                        fg=self.color_text,
+                        font=self.font_subtitle)
+        
+        opciones_disponibles = self.trabajadores_disponibles if number == 0 else ['']
+        menu = OptionMenu(aux, self.valores[number], *opciones_disponibles)
+        menu.config(bg=self.color_white,
+                   fg=self.color_text,
+                   font=self.font_normal,
+                   activebackground=self.color_secondary,
+                   activeforeground=self.color_white)
+        self.trabajador_menus.append(menu)
+        
+        auxLabel.grid(row=number, column=0, padx=5)
+        menu.grid(row=number, column=1, padx=5)
+        aux.pack(pady=5)
 
     def obtener_fecha_seleccionada(self):
         return f"{self.anio.get()}-{self.mes.get()}-{self.dia.get()}"
 
     def registrar_grupo(self, trabajadores_seleccionados, vehiculo_seleccionado, fecha):
-        # Obtener las cédulas de los trabajadores seleccionados
         cedulas = {}
         with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
             for linea in archivo:
@@ -98,7 +193,6 @@ class Formar_Grupo_GUI(Tk):
                 if nombre_completo in trabajadores_seleccionados:
                     cedulas[nombre_completo] = datos[2]
 
-        # Registrar el grupo en Grupos.txt
         with open('Nomina_ing_software/archivos_de_texto/Grupos.txt', 'a') as archivo:
             archivo.write(f"\nGRUPO CREADO EN FECHA: {fecha}\n")
             archivo.write("Integrantes:\n")
@@ -111,10 +205,8 @@ class Formar_Grupo_GUI(Tk):
     def actualizacion_archivo(self, trabajadores_seleccionados, vehiculo_seleccionado):
         fecha_seleccionada = self.obtener_fecha_seleccionada()
         
-        # Registrar el grupo
         self.registrar_grupo(trabajadores_seleccionados, vehiculo_seleccionado, fecha_seleccionada)
         
-        # Actualizar el archivo de empleados
         with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
             lineas = archivo.readlines()
         with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'w') as archivo:
@@ -125,7 +217,6 @@ class Formar_Grupo_GUI(Tk):
                 else:
                     archivo.write(linea)
         
-        # Actualizar el archivo de vehículos
         with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'r') as archivo:
             lineas = archivo.readlines()
         with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'w') as archivo:
@@ -145,7 +236,6 @@ class Formar_Grupo_GUI(Tk):
         trabajadores_seleccionados = [self.valores[0].get(), self.valores[1].get(), self.valores[2].get()]
         vehiculo_seleccionado = self.valorVehiculo.get()
         
-        # Verificación de fecha válida
         try:
             fecha = self.obtener_fecha_seleccionada()
             datetime.strptime(fecha, "%Y-%m-%d")
@@ -153,45 +243,24 @@ class Formar_Grupo_GUI(Tk):
             messagebox.showwarning("Error", "La fecha seleccionada no es válida")
             return
         
-        # Verificacion de que se escogió vehículo
         if vehiculo_seleccionado == "":
             messagebox.showwarning("Error", "Por favor seleccione un vehículo")
             return
             
-        # Verificacion de que todos los campos tengan trabajador
         if "" in trabajadores_seleccionados:
             messagebox.showwarning("Error", "Todos los trabajadores deben ser seleccionados, por favor verifique")
             return
             
-        # Verificacion de que todos los trabajadores sean distintos
         if len(trabajadores_seleccionados) != len(set(trabajadores_seleccionados)):
             messagebox.showwarning("Error", "Los trabajadores seleccionados deben ser distintos y todos deben estar asignados, por favor verifique")
             return
         
-        # Llamar a actualizacion_archivo con los parámetros necesarios
         self.actualizacion_archivo(trabajadores_seleccionados, vehiculo_seleccionado)
     
-    def frameTrabajador(self, number):
-        aux = Frame(self.main_frame)
-        auxLabel = Label(aux, text=f"Trabajador {number + 1}")
-        
-        # Usar self.trabajadores_disponibles en lugar de la variable global
-        opciones_disponibles = self.trabajadores_disponibles if number == 0 else ['']
-        menu = OptionMenu(aux, self.valores[number], *opciones_disponibles)
-        self.trabajador_menus.append(menu)
-        
-        auxLabel.grid(row=number, column=0, padx=5)
-        menu.grid(row=number, column=1, padx=5)
-        aux.pack(pady=5)
-    
     def actualizar_opciones(self, menu_index):
-        # Obtener trabajadores ya seleccionados
         seleccionados = [var.get() for var in self.valores[:menu_index]]
-        
-        # Filtrar las opciones disponibles usando self.trabajadores_disponibles
         opciones_disponibles = [t for t in self.trabajadores_disponibles if t not in seleccionados]
         
-        # Actualizar el menú correspondiente
         menu = self.trabajador_menus[menu_index]
         menu['menu'].delete(0, 'end')
         
@@ -202,21 +271,19 @@ class Formar_Grupo_GUI(Tk):
             )
 
     def obtener_trabajadores_disponibles(self):
-            """Método para obtener la lista actualizada de trabajadores disponibles"""
-            trabajadores_dispo = []
-            try:
-                with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
-                    for linea in archivo:
-                        datos = linea.strip().split(" ")
-                        if datos[3] == "Disponible":
-                            nombre_completo = datos[0] + " " + datos[1]
-                            trabajadores_dispo.append(nombre_completo)
-            except Exception as e:
-                messagebox.showerror("Error", f"Error al leer archivo de empleados: {str(e)}")
-            return trabajadores_dispo
+        trabajadores_dispo = []
+        try:
+            with open('Nomina_ing_software/archivos_de_texto/Empleados.txt', 'r') as archivo:
+                for linea in archivo:
+                    datos = linea.strip().split(" ")
+                    if datos[3] == "Disponible":
+                        nombre_completo = datos[0] + " " + datos[1]
+                        trabajadores_dispo.append(nombre_completo)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al leer archivo de empleados: {str(e)}")
+        return trabajadores_dispo
 
     def obtener_vehiculos_disponibles(self):
-        """Método para obtener la lista actualizada de vehículos disponibles"""
         vehiculos_dispo = []
         try:
             with open('Nomina_ing_software/archivos_de_texto/Vehiculos.txt', 'r') as archivo:
@@ -228,8 +295,7 @@ class Formar_Grupo_GUI(Tk):
             messagebox.showerror("Error", f"Error al leer archivo de vehículos: {str(e)}")
         return vehiculos_dispo
 
-"""trabajadores_disponibles = trabajadores_disponibles()
-vehiculos_disponibles = vehiculos_disponibles()"""
-
-"""if __name__ == "__main__":
-    Formar_Grupo_GUI()"""
+     
+    
+if __name__ == "__main__":
+    Formar_Grupo_GUI()

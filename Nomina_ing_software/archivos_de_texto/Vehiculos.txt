@@ -1,4 +1,6 @@
-123456 Ocupado
+123456 No-optimo
 54321 Ocupado
-09875 Disponible
+09875 Ocupado
 7890 Disponible
+22223333 Disponible
+1111122222 Disponible

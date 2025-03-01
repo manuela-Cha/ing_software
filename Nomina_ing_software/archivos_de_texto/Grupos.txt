@@ -5,5 +5,14 @@ Integrantes:
 - Alan Mena (CC: 1234)
 - Matiux Perez (CC: 123456)
 Vehiculo asignado: 54321
+Estado: Ocupado
+--------------------------------------------------
+
+GRUPO CREADO EN FECHA: 2025-03-01
+Integrantes:
+- Carla Henao (CC: 123456789)
+- juan lopez (CC: 1234567)
+- manuela chaverra (CC: 1000443641)
+Vehiculo asignado: 09875
 Estado: Disponible
 --------------------------------------------------
