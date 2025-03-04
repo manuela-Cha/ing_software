@@ -8,7 +8,8 @@ class Formar_Grupo_GUI(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Formación de grupos")
-        self.geometry("500x600")
+        self.geometry("500x500")
+        self.resizable(False, False)
 
         # Definir colores
         self.color_primary = "#2ECC71"      # Verde principal
@@ -158,7 +159,87 @@ class Formar_Grupo_GUI(Tk):
                             pady=5)
         self.confirm.pack(pady=20)
         
+        # Footer con copyright y botón de ayuda
+        self.create_footer()
+
         self.mainloop()
+
+    def create_footer(self):
+        """Crea el pie de página con copyright y botón de ayuda."""
+        footer_frame = Frame(self.main_frame, bg=self.color_accent, height=30)
+        footer_frame.pack(fill='x', pady=(15, 0))
+
+        # Texto de copyright
+        copyright_label = Label(footer_frame,
+                                text="© 2025 Sistema de Gestión de Rutas - v1.0",
+                                bg=self.color_accent,
+                                fg=self.color_white,
+                                font=("Helvetica", 8))
+        copyright_label.pack(side='left', padx=10, pady=5)
+
+        # Botón de ayuda
+        help_button = Button(footer_frame,
+                             text="?",
+                             bg=self.color_accent,
+                             fg=self.color_white,
+                             bd=0,
+                             font=("Helvetica", 10, "bold"),
+                             activebackground=self.color_secondary,
+                             command=self.mostrar_ayuda,
+                             width=3,
+                             height=1,
+                             cursor="hand2")
+        help_button.pack(side='right', padx=10, pady=5)
+
+    def mostrar_ayuda(self):
+        """Muestra una ventana de ayuda."""
+        help_window = Toplevel(self)
+        help_window.title("Ayuda")
+        help_window.geometry("400x350")
+        help_window.configure(bg=self.color_white)
+        help_window.transient(self)
+        help_window.grab_set()
+
+        # Contenido de ayuda
+        content_frame = Frame(help_window, bg=self.color_white)
+        content_frame.pack(expand=True, fill='both', padx=10, pady=10)
+
+        Label(content_frame,
+              text="Ayuda - Formación de Grupos",
+              font=self.font_subtitle,
+              bg=self.color_white,
+              fg=self.color_text).pack(pady=(0, 10))
+
+        help_text = """Instrucciones:
+- Trabajadores: Seleccione 3 trabajadores distintos de las listas desplegables.
+- Vehículo: Elija un vehículo disponible del menú.
+- Fecha: Ajuste la fecha de creación del grupo (día, mes, año).
+- Confirmar: Haga clic para formar el grupo y registrarlo.
+
+Nota:
+- Todos los campos son obligatorios.
+- Los trabajadores deben ser únicos.
+- La fecha debe ser válida."""
+        
+        Label(content_frame,
+              text=help_text,
+              font=self.font_normal,
+              bg=self.color_white,
+              fg=self.color_text,
+              justify="left",
+              wraplength=380).pack(pady=10)
+
+        # Botón de cerrar
+        Button(content_frame,
+               text="Cerrar",
+               font=self.font_normal,
+               bg=self.color_accent,
+               fg=self.color_white,
+               command=help_window.destroy,
+               activebackground=self.color_secondary,
+               relief="flat",
+               padx=10,
+               pady=5).pack(pady=(10, 0))
 
     def frameTrabajador(self, number):
         aux = Frame(self.main_frame, bg=self.color_bg)
@@ -295,7 +376,5 @@ class Formar_Grupo_GUI(Tk):
             messagebox.showerror("Error", f"Error al leer archivo de vehículos: {str(e)}")
         return vehiculos_dispo
 
-     
-    
 if __name__ == "__main__":
     Formar_Grupo_GUI()

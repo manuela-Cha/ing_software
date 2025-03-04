@@ -10,7 +10,8 @@ class EstadoVehiculo:
         # Creación de la ventana principal
         self.ventana = tk.Tk()
         self.ventana.title("Estado de Vehículo")
-        self.ventana.geometry("500x450")
+        self.ventana.geometry("600x550")
+        self.ventana.resizable(False, False)
 
         # Definir colores
         self.color_primary = "#2ECC71"      # Verde principal
@@ -29,15 +30,19 @@ class EstadoVehiculo:
         # Configurar el color de fondo de la ventana principal
         self.ventana.configure(bg=self.color_bg)
 
+        # Main container
+        self.main_container = tk.Frame(self.ventana, bg=self.color_bg)
+        self.main_container.pack(expand=True, fill='both', padx=20, pady=20)
+
         # Etiqueta y campo para la placa
-        label_placa = tk.Label(self.ventana, 
+        label_placa = tk.Label(self.main_container, 
                               text="Placa:", 
                               bg=self.color_bg,
                               fg=self.color_text,
                               font=self.font_subtitle)
         label_placa.pack(pady=5)
         
-        self.entry_placa = tk.Entry(self.ventana, 
+        self.entry_placa = tk.Entry(self.main_container, 
                                   width=30,
                                   bg=self.color_white,
                                   fg=self.color_text,
@@ -48,7 +53,7 @@ class EstadoVehiculo:
         self.estado_vehiculo = None
 
         # Etiqueta para seleccionar estado
-        label_estado = tk.Label(self.ventana, 
+        label_estado = tk.Label(self.main_container, 
                                text="Seleccione el estado del vehículo:", 
                                bg=self.color_bg,
                                fg=self.color_text,
@@ -56,7 +61,7 @@ class EstadoVehiculo:
         label_estado.pack(pady=5)
 
         # Frame para los botones de estado
-        frame_botones = tk.Frame(self.ventana, bg=self.color_bg)
+        frame_botones = tk.Frame(self.main_container, bg=self.color_bg)
         frame_botones.pack(pady=5)
 
         self.boton_optimo = tk.Button(frame_botones, 
@@ -84,7 +89,7 @@ class EstadoVehiculo:
         self.boton_no_optimo.pack(side=tk.LEFT, padx=5)
 
         # Botón para registrar
-        self.boton_registrar = tk.Button(self.ventana, 
+        self.boton_registrar = tk.Button(self.main_container, 
                                        text="Registrar estado del vehiculo", 
                                        command=self.registrar_vehiculo,
                                        bg=self.color_primary,
@@ -98,7 +103,7 @@ class EstadoVehiculo:
         self.boton_registrar.pack(pady=10)
 
         # Botón para cerrar
-        self.boton_cerrar = tk.Button(self.ventana, 
+        self.boton_cerrar = tk.Button(self.main_container, 
                                     text="Cerrar", 
                                     command=self.abrir_ventana_principal,
                                     bg=self.color_accent,
@@ -112,14 +117,14 @@ class EstadoVehiculo:
         self.boton_cerrar.pack(pady=10)
 
         # Área para mostrar vehículos existentes
-        label_vehiculos = tk.Label(self.ventana, 
+        label_vehiculos = tk.Label(self.main_container, 
                                  text="Vehículos registrados:", 
                                  bg=self.color_bg,
                                  fg=self.color_text,
                                  font=self.font_subtitle)
         label_vehiculos.pack(pady=5)
         
-        self.lista_vehiculos = tk.Listbox(self.ventana, 
+        self.lista_vehiculos = tk.Listbox(self.main_container, 
                                         width=50, 
                                         height=10,
                                         bg=self.color_white,
@@ -127,9 +132,87 @@ class EstadoVehiculo:
                                         font=self.font_normal)
         self.lista_vehiculos.pack(pady=5)
 
+        # Footer con copyright y botón de ayuda
+        self.create_footer()
+
         self.cargar_vehiculos()  # Cargar vehículos al iniciar
 
         self.ventana.mainloop()
+
+    def create_footer(self):
+        """Crea el pie de página con copyright y botón de ayuda."""
+        footer_frame = tk.Frame(self.main_container, bg=self.color_accent, height=30)
+        footer_frame.pack(fill='x', pady=(15, 0))
+
+        # Texto de copyright
+        copyright_label = tk.Label(footer_frame,
+                                  text="© 2025 Sistema de Gestión de Rutas - v1.0",
+                                  bg=self.color_accent,
+                                  fg=self.color_white,
+                                  font=("Helvetica", 8))
+        copyright_label.pack(side='left', padx=10, pady=5)
+
+        # Botón de ayuda
+        help_button = tk.Button(footer_frame,
+                               text="?",
+                               bg=self.color_accent,
+                               fg=self.color_white,
+                               bd=0,
+                               font=("Helvetica", 10, "bold"),
+                               activebackground=self.color_secondary,
+                               command=self.mostrar_ayuda,
+                               width=3,
+                               height=1,
+                               cursor="hand2")
+        help_button.pack(side='right', padx=10, pady=5)
+
+    def mostrar_ayuda(self):
+        """Muestra una ventana de ayuda."""
+        help_window = tk.Toplevel(self.ventana)
+        help_window.title("Ayuda")
+        help_window.geometry("400x300")
+        help_window.configure(bg=self.color_white)
+        help_window.transient(self.ventana)
+        help_window.grab_set()
+
+        # Contenido de ayuda
+        content_frame = tk.Frame(help_window, bg=self.color_white)
+        content_frame.pack(expand=True, fill='both', padx=10, pady=10)
+
+        tk.Label(content_frame,
+                text="Ayuda - Estado de Vehículo",
+                font=self.font_subtitle,
+                bg=self.color_white,
+                fg=self.color_text).pack(pady=(0, 10))
+
+        help_text = """Instrucciones:
+- Placa: Ingrese la placa del vehículo (en mayúsculas).
+- Estado: Seleccione 'Disponible' o 'No-optimo' con los botones.
+- Registrar: Haga clic para actualizar el estado del vehículo.
+- Cerrar: Regresa al Panel de Administración.
+- Vehículos registrados: Lista de vehículos actuales.
+
+Nota: La placa debe coincidir con un vehículo registrado."""
+        
+        tk.Label(content_frame,
+                text=help_text,
+                font=self.font_normal,
+                bg=self.color_white,
+                fg=self.color_text,
+                justify="left",
+                wraplength=380).pack(pady=10)
+
+        # Botón de cerrar
+        tk.Button(content_frame,
+                 text="Cerrar",
+                 font=self.font_normal,
+                 bg=self.color_accent,
+                 fg=self.color_white,
+                 command=help_window.destroy,
+                 activebackground=self.color_secondary,
+                 relief="flat",
+                 padx=10,
+                 pady=5).pack(pady=(10, 0))
 
     def seleccionar_estado(self, estado):
         """Actualiza el estado del vehículo seleccionado."""

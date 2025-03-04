@@ -29,7 +29,7 @@ class Ventana_principal:
         self.font_normal = font.Font(family="Helvetica", size=11)
 
         # Configurar ventana a pantalla completa
-        self.ventana.geometry("900x600")
+        self.ventana.geometry("1000x600")
         self.ventana.configure(bg=self.color_bg)
 
         # Main container
@@ -85,15 +85,24 @@ class Ventana_principal:
         for col in range(3):
             buttons_frame.grid_columnconfigure(col, weight=1)
 
-        # Footer with help button
+        # Footer with copyright and help button
         self.create_footer()
 
         self.ventana.mainloop()
 
     def create_footer(self):
-        """Crea el pie de página."""
+        """Crea el pie de página con copyright y botón de ayuda."""
         footer_frame = tk.Frame(self.main_container, bg=self.color_accent, height=30)
         footer_frame.pack(fill='x', pady=(15, 0))
+
+        # Texto de copyright
+        copyright_label = tk.Label(footer_frame,
+                                  text="© 2025 Sistema de Gestión de Rutas - v1.0",
+                                  bg=self.color_accent,
+                                  fg=self.color_white,
+                                  font=("Helvetica", 8))
+        copyright_label.pack(side='left', padx=10, pady=5)
+
         # Botón de ayuda
         help_button = tk.Button(footer_frame,
                                text="?",
@@ -110,12 +119,12 @@ class Ventana_principal:
 
     def mostrar_ayuda(self):
         """Muestra una ventana de ayuda."""
-        help_window = tk.Toplevel(self.ventana)  # Use self.ventana as parent
+        help_window = tk.Toplevel(self.ventana)
         help_window.title("Ayuda")
         help_window.geometry("400x300")
         help_window.configure(bg=self.color_white)
-        help_window.transient(self.ventana)  # Make it modal relative to main window
-        help_window.grab_set()  # Focus on help window
+        help_window.transient(self.ventana)
+        help_window.grab_set()
         
         # Help content frame
         content_frame = tk.Frame(help_window, bg=self.color_white)
@@ -193,7 +202,7 @@ class Ventana_principal:
     def cerrar(self):
         respuesta = messagebox.askyesno(
             "Confirmar cierre",
-            "Si cierra el programa, los grupos creados se disolverán ya que al volver a iniciar se interpretará como un día nuevo.\n¿Desea continuar?"
+            "¿Está seguro que deseas salir del sistema?"
         )
         if respuesta:
             self.ventana.destroy()

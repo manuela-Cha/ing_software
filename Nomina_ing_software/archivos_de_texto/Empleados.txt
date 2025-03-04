@@ -6,6 +6,10 @@ Juan perea 98760 Disponible
 Carla Henao 123456789 Ocupado
 manuela chaverra 100443 Ocupado
 manuela chaverra 1000443641 Ocupado
-1 1 1 Disponible
 lol wsw wsw Disponible
 lol1 lol2 12345 Disponible
+nidia toro 0987 Ocupado
+alba chaverra 09876 Ocupado
+lucely chaverra 098765 Disponible
+maria chaverra 0987654 Ocupado
+trinidad chaverra 09876543 Disponible

@@ -1,6 +1,7 @@
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from tkinter import messagebox
+from tkinter import messagebox, font
 
 class GestorGruposRutas:
     def __init__(self):
@@ -109,11 +110,9 @@ class GestorGruposRutas:
     def actualizar_estado_grupo(self, grupo_texto, nuevo_estado):
         """Actualiza el estado de un grupo en el archivo de grupos."""
         try:
-            # Identificar al grupo por algún atributo único
             grupo_lineas = grupo_texto.split('\n')
             grupo_identificadores = []
             
-            # Recopilar los identificadores del grupo (nombres e IDs de miembros)
             for linea in grupo_lineas:
                 if '(CC:' in linea and ')' in linea:
                     grupo_identificadores.append(linea.strip())
@@ -121,11 +120,9 @@ class GestorGruposRutas:
             if not grupo_identificadores:
                 raise ValueError("No se pudieron encontrar identificadores para el grupo")
             
-            # Leer el archivo completo
             with open(self.archivo_grupos, 'r', encoding='utf-8') as archivo:
                 lineas = archivo.readlines()
             
-            # Escribir el archivo con el estado actualizado
             with open(self.archivo_grupos, 'w', encoding='utf-8') as archivo:
                 grupo_encontrado = False
                 dentro_de_grupo = False
@@ -133,31 +130,25 @@ class GestorGruposRutas:
                 for linea in lineas:
                     linea_strip = linea.strip()
                     
-                    # Si encontramos un separador, podemos resetear las banderas
                     if linea_strip == "-" * 50:
                         dentro_de_grupo = False
                         grupo_encontrado = False
                         archivo.write(linea)
                         continue
                     
-                    # Si estamos en el grupo correcto y es la línea de estado, actualizarla
                     if grupo_encontrado and linea_strip.startswith("Estado:"):
                         archivo.write(f"Estado: {nuevo_estado}\n")
                         continue
                     
-                    # Verificar si esta línea contiene un identificador del grupo
                     if not grupo_encontrado:
                         for identificador in grupo_identificadores:
                             if identificador in linea_strip:
                                 dentro_de_grupo = True
                                 break
                     
-                    # Si estamos dentro del grupo y encontramos "Vehiculo asignado:", 
-                    # entonces el estado vendrá después
                     if dentro_de_grupo and "Vehiculo asignado:" in linea_strip:
                         grupo_encontrado = True
                     
-                    # En cualquier otro caso, escribir la línea original
                     archivo.write(linea)
             
             return True
@@ -185,20 +176,17 @@ class GestorGruposRutas:
                     else:
                         archivo.write(linea)
             
-            # Actualizar el estado del grupo a Ocupado
             self.actualizar_estado_grupo(grupo_texto, "Ocupado")
 
             return True
         except Exception as e:
             raise Exception(f"Error al asignar grupo a ruta: {str(e)}")
 
-from tkinter import Tk, Frame, Label, Button, LabelFrame, Listbox, END, messagebox, font
-
 class GestorGruposRutasGUI:
     def __init__(self):
         self.ventana = Tk()
         self.ventana.title("Gestión de Grupos y Rutas")
-        self.ventana.geometry("1000x600")
+        self.ventana.geometry("1200x600")
         self.gestor = GestorGruposRutas()
         
         # Definir colores
@@ -212,6 +200,10 @@ class GestorGruposRutasGUI:
         # Configurar el color de fondo de la ventana principal
         self.ventana.configure(bg=self.color_bg)
         
+        # Crear marco principal
+        self.main_container = Frame(self.ventana, bg=self.color_bg)
+        self.main_container.pack(fill=tk.BOTH, expand=True)
+        
         # Crear fuentes personalizadas
         self.font_title = font.Font(family="Helvetica", size=16, weight="bold")
         self.font_subtitle = font.Font(family="Helvetica", size=12, weight="bold")
@@ -219,7 +211,7 @@ class GestorGruposRutasGUI:
         self.font_normal = font.Font(family="Helvetica", size=10)
         
         # Frame superior con título y estado
-        frame_superior = Frame(self.ventana, pady=20, bg=self.color_bg)
+        frame_superior = Frame(self.main_container, pady=20, bg=self.color_bg)
         frame_superior.pack(fill='x')
         
         Label(frame_superior, text="Estado del Sistema", font=self.font_title, 
@@ -230,7 +222,7 @@ class GestorGruposRutasGUI:
         self.label_estado.pack(pady=10)
         
         # Frame principal que contiene las listas
-        frame_principal = Frame(self.ventana, bg=self.color_bg)
+        frame_principal = Frame(self.main_container, bg=self.color_bg)
         frame_principal.pack(expand=True, fill='both', padx=20)
         
         # Frame para grupos
@@ -267,7 +259,7 @@ class GestorGruposRutasGUI:
         self.lista_rutas.pack(expand=True, fill='both')
         
         # Frame para botones inferiores
-        frame_botones = Frame(self.ventana, pady=20, bg=self.color_bg)
+        frame_botones = Frame(self.main_container, pady=20, bg=self.color_bg)
         frame_botones.pack()
         
         # Botones con el nuevo estilo
@@ -278,6 +270,9 @@ class GestorGruposRutasGUI:
         Button(frame_botones, text="Salir", command=self.salir, width=15,
               font=self.font_button, bg=self.color_accent, 
               fg=self.color_white, activebackground=self.color_secondary).pack(side="left", padx=5)
+        
+        # Crear footer después de definir main_container
+        self.create_footer()
         
         self.grupos_dict = {}
         self.rutas_dict = {}
@@ -312,7 +307,56 @@ class GestorGruposRutasGUI:
         else:
             self.label_estado.config(fg=self.color_accent)
             self.boton_asignar.config(state='normal')
-    
+
+    def create_footer(self):
+        """Crea el pie de página."""
+        footer_frame = tk.Frame(self.main_container, bg=self.color_accent, height=30)
+        footer_frame.pack(fill=tk.X, pady=(15, 0))
+        
+        # Texto de copyright
+        copyright_label = tk.Label(footer_frame, text="© 2025 Sistema de Gestión de rutas - v1.0", 
+                                  bg=self.color_accent, fg=self.color_white,
+                                  font=("Helvetica", 8))
+        copyright_label.pack(side=tk.LEFT, padx=10, pady=5)
+        
+        # Botón de ayuda
+        help_button = tk.Button(footer_frame, text="?", bg=self.color_accent, 
+                               fg=self.color_white, bd=0, font=("Helvetica", 10, "bold"),
+                               activebackground=self.color_secondary,
+                               command=self.mostrar_ayuda)
+        help_button.pack(side=tk.RIGHT, padx=10, pady=5)
+
+    def mostrar_ayuda(self):
+        """Muestra una ventana de ayuda."""
+        help_window = tk.Toplevel(self.ventana)  # Cambiado self.root por self.ventana
+        help_window.title("Ayuda")
+        help_window.geometry("500x350")
+        help_window.configure(bg=self.color_white)
+        
+        # Título
+        titulo = tk.Label(help_window, text="Ayuda del Sistema", 
+                        font=self.font_title, bg=self.color_white)
+        titulo.pack(pady=10)
+        
+        # Contenido
+        contenido = tk.Label(help_window, text=
+                        "Este sistema permite asignar rutas a grupos.\n\n"
+                        "- Para actualizar: haga clic en 'Actualizar Todo'\n"
+                        "- Para asignar: seleccione un grupo y una ruta y de click en 'Asignar'\n"
+                        "- Para salir: De click en el boton 'Salir' y este lo llevará a la ventana principal\n"
+                        "- al seleccionar una fila, esta se resalta en color verde para una mejor experiencia\n\n",
+                        justify=tk.LEFT, bg=self.color_white, fg=self.color_text)
+        contenido.pack(padx=20, pady=10, fill=tk.X)
+        
+        # Botón de cerrar
+        cerrar = tk.Button(help_window, text="Cerrar", 
+                        bg=self.color_secondary, fg=self.color_white,
+                        font=self.font_button, bd=0, padx=15, pady=5,
+                        activebackground=self.color_accent,
+                        activeforeground=self.color_white,
+                        command=help_window.destroy)
+        cerrar.pack(pady=20)
+
     def mostrar_grupos(self):
         self.lista_grupos.delete(0, END)
         self.grupos_dict.clear()
@@ -365,3 +409,6 @@ class GestorGruposRutasGUI:
             self.actualizar_todo()
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+if __name__ == "__main__":
+    GestorGruposRutasGUI()

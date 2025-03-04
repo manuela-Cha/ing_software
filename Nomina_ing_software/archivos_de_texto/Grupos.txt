@@ -14,5 +14,14 @@ Integrantes:
 - juan lopez (CC: 1234567)
 - manuela chaverra (CC: 1000443641)
 Vehiculo asignado: 09875
-Estado: Disponible
+Estado: Ocupado
+--------------------------------------------------
+
+GRUPO CREADO EN FECHA: 2025-03-03
+Integrantes:
+- nidia toro (CC: 0987)
+- alba chaverra (CC: 09876)
+- maria chaverra (CC: 0987654)
+Vehiculo asignado: 7890
+Estado: Ocupado
 --------------------------------------------------

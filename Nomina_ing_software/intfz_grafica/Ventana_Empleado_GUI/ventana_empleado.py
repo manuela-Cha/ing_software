@@ -8,7 +8,7 @@ class Ventana_Empleado_GUI(Tk):
         super().__init__()
         self.cedula_empleado = cedula_empleado
         self.title("Portal del Empleado")
-        self.geometry("700x650")  # Slightly larger window for better layout
+        self.geometry("700x550")  # Slightly larger window for better layout
         self.resizable(False, False)  # Prevent resizing
 
         # Definir colores
@@ -130,7 +130,85 @@ class Ventana_Empleado_GUI(Tk):
                bd=0,
                cursor="hand2").pack(side=RIGHT, padx=5)
         
+        # Footer con copyright y botón de ayuda
+        self.create_footer()
+        
         self.mainloop()
+    
+    def create_footer(self):
+        """Crea el pie de página con copyright y botón de ayuda."""
+        footer_frame = Frame(self.main_frame, bg=self.color_accent, height=30)
+        footer_frame.pack(fill='x', pady=(15, 0))
+
+        # Texto de copyright
+        copyright_label = Label(footer_frame,
+                                text="© 2025 Sistema de Gestión de Rutas - v1.0",
+                                bg=self.color_accent,
+                                fg=self.color_white,
+                                font=("Helvetica", 8))
+        copyright_label.pack(side='left', padx=10, pady=5)
+
+        # Botón de ayuda
+        help_button = Button(footer_frame,
+                             text="?",
+                             bg=self.color_accent,
+                             fg=self.color_white,
+                             bd=0,
+                             font=("Helvetica", 10, "bold"),
+                             activebackground=self.color_secondary,
+                             command=self.mostrar_ayuda,
+                             width=3,
+                             height=1,
+                             cursor="hand2")
+        help_button.pack(side='right', padx=10, pady=5)
+
+    def mostrar_ayuda(self):
+        """Muestra una ventana de ayuda."""
+        help_window = Toplevel(self)
+        help_window.title("Ayuda")
+        help_window.geometry("400x350")
+        help_window.configure(bg=self.color_white)
+        help_window.transient(self)
+        help_window.grab_set()
+
+        # Contenido de ayuda
+        content_frame = Frame(help_window, bg=self.color_white)
+        content_frame.pack(expand=True, fill='both', padx=10, pady=10)
+
+        Label(content_frame,
+              text="Ayuda - Portal del Empleado",
+              font=self.font_subtitle,
+              bg=self.color_white,
+              fg=self.color_text).pack(pady=(0, 10))
+
+        help_text = """Instrucciones:
+- Información Personal: Muestra su nombre, cédula y estado.
+- Estado del Grupo: Indica si está asignado a un grupo.
+  - Si está en un grupo, verá los detalles y podrá confirmar el trabajo.
+  - Si no, aparecerá "No asignado a ningún grupo".
+- Actualizar Estado: Refresca la información del grupo.
+- Confirmar Trabajo: Finaliza el trabajo y libera el grupo (si aplica).
+- Cerrar Sesión: Regresa a la pantalla de inicio de sesión."""
+        
+        Label(content_frame,
+              text=help_text,
+              font=self.font_normal,
+              bg=self.color_white,
+              fg=self.color_text,
+              justify="left",
+              wraplength=380).pack(pady=10)
+
+        # Botón de cerrar
+        Button(content_frame,
+               text="Cerrar",
+               font=self.font_normal,
+               bg=self.color_accent,
+               fg=self.color_white,
+               command=help_window.destroy,
+               activebackground=self.color_secondary,
+               relief="flat",
+               padx=15,
+               pady=5).pack(pady=(10, 0))
     
     def obtener_info_empleado(self):
         try:
@@ -417,3 +495,6 @@ class Ventana_Empleado_GUI(Tk):
                         
         except Exception as e:
             messagebox.showerror("Error", f"Error al eliminar el grupo: {str(e)}")
+
+if __name__ == "__main__":
+    Ventana_Empleado_GUI("123456")  # Example cedula for testing
