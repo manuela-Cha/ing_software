@@ -1,1 +1,4 @@
 Manuela 12345* admin
+1000447876 12345* empleado
+1002443876 gestion_rut12 empleado
+43567876 Gestion_123* empleado
