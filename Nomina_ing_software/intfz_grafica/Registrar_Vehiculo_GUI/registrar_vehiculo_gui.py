@@ -1,13 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
 import tkinter.font as font
+import re
 
 class RegistrarvehiculoGUI:
     def __init__(self):
         # Creación de la ventana principal
         self.ventana = tk.Tk()
         self.ventana.title("Agregar Vehículo")
-        self.ventana.geometry("500x300")
+        self.ventana.geometry("500x400")
         self.ventana.resizable(False, False)
 
         # Definir colores
@@ -156,11 +157,12 @@ Nota: El ID debe ser único y no puede estar vacío."""
 
     def agregar_vehiculo(self):
         # Obtener el ID del vehículo ingresado
-        id_vehiculo = self.entry_id_vehiculo.get().strip()
+        id_vehiculo = self.entry_id_vehiculo.get().strip().lower()
 
-        # Verificar que no haya campos vacíos
-        if not id_vehiculo:
-            messagebox.showerror("Error", "El ID del vehículo es obligatorio.")
+        # Validar formato de placa
+        placa_pattern = re.compile(r'^[a-z]{3}-\d{3}$')
+        if not placa_pattern.match(id_vehiculo):
+            messagebox.showerror("Error", "Formato de placa inválido.\n\nFormato correcto: xxx-###\nEjemplo: tpn-600")
             return
 
         # Verificar si el vehículo ya existe en el archivo

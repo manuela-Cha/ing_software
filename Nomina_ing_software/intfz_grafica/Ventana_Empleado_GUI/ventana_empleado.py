@@ -9,7 +9,7 @@ class Ventana_Empleado_GUI(Tk):
         self.cedula_empleado = cedula_empleado
         self.title("Portal del Empleado")
         self.geometry("700x550")  # Slightly larger window for better layout
-        self.resizable(False, False)  # Prevent resizing
+        
 
         # Definir colores
         self.color_primary = "#2ECC71"      # Verde principal

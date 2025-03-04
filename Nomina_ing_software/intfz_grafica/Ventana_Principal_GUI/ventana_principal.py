@@ -127,7 +127,7 @@ class Ventana_principal:
         """Muestra una ventana de ayuda."""
         help_window = tk.Toplevel(self.ventana)
         help_window.title("Ayuda")
-        help_window.geometry("400x300")
+        help_window.geometry("400x350")
         help_window.configure(bg=self.color_white)
         help_window.transient(self.ventana)
         help_window.grab_set()
