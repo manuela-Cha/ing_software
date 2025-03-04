@@ -531,5 +531,5 @@ class VisualizadorEquipos:
         root.mainloop()
 
 # Si este archivo se ejecuta directamente
-if __name__ == "__main__":
-    VisualizadorEquipos.iniciar_aplicacion()
+"""if __name__ == "__main__":
+    VisualizadorEquipos.iniciar_aplicacion()"""

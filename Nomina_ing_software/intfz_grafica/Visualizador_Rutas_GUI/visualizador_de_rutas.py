@@ -495,6 +495,6 @@ class VisualizadorRutas:
         app = VisualizadorRutas(root)
         root.mainloop()
 
-# Si este archivo se ejecuta directamente
+"""# Si este archivo se ejecuta directamente
 if __name__ == "__main__":
-    VisualizadorRutas.iniciar_aplicacion()
+    VisualizadorRutas.iniciar_aplicacion()"""

@@ -496,5 +496,5 @@ class Ventana_Empleado_GUI(Tk):
         except Exception as e:
             messagebox.showerror("Error", f"Error al eliminar el grupo: {str(e)}")
 
-if __name__ == "__main__":
-    Ventana_Empleado_GUI("123456")  # Example cedula for testing
+"""if __name__ == "__main__":
+    Ventana_Empleado_GUI("123456") """

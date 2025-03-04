@@ -243,5 +243,5 @@ Nota: Todos los campos son obligatorios y deben coincidir con un empleado regist
         from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()
 
-if __name__ == "__main__":
-    Eliminar_empleado_GUI()
+"""if __name__ == "__main__":
+    Eliminar_empleado_GUI()"""

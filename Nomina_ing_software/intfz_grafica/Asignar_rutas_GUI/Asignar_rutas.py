@@ -409,6 +409,6 @@ class GestorGruposRutasGUI:
             self.actualizar_todo()
         except Exception as e:
             messagebox.showerror("Error", str(e))
-
+"""
 if __name__ == "__main__":
-    GestorGruposRutasGUI()
+    GestorGruposRutasGUI()"""

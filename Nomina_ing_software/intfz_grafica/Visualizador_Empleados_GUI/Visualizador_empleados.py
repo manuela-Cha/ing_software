@@ -407,6 +407,6 @@ class VisualizadorEmpleados:
         app = VisualizadorEmpleados(root)
         root.mainloop()
 
-# Si este archivo se ejecuta directamente
+"""# Si este archivo se ejecuta directamente
 if __name__ == "__main__":
-    VisualizadorEmpleados.iniciar_aplicacion()
+    VisualizadorEmpleados.iniciar_aplicacion()"""

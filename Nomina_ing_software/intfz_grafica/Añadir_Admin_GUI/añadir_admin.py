@@ -211,5 +211,5 @@ Nota: Todos los campos son obligatorios y el usuario no debe estar registrado pr
         self.entry_usuario.delete(0, tk.END)
         self.entry_contrasenia.delete(0, tk.END)
 
-if __name__ == "__main__":
-    Añadir_admin()
+"""if __name__ == "__main__":
+    Añadir_admin()"""

@@ -224,6 +224,6 @@ class Ventana_principal:
         )
         if respuesta:
             self.ventana.destroy()
-
+"""
 if __name__ == "__main__":
-    Ventana_principal()
+    Ventana_principal()"""

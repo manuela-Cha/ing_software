@@ -420,5 +420,5 @@ class VisualizadorVehiculos:
         root.mainloop()
 
 # Si este archivo se ejecuta directamente
-if __name__ == "__main__":
-    VisualizadorVehiculos.iniciar_aplicacion()
+"""if __name__ == "__main__":
+    VisualizadorVehiculos.iniciar_aplicacion()"""

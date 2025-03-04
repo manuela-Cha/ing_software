@@ -194,6 +194,6 @@ Nota: El ID debe ser único y no puede estar vacío."""
         self.ventana.withdraw()  # Ocultar la ventana principal
         from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()
-
+"""
 if __name__ == "__main__":
-    RegistrarvehiculoGUI()
+    RegistrarvehiculoGUI()"""

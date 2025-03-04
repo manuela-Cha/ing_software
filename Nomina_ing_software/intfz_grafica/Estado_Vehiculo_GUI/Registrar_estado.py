@@ -279,6 +279,6 @@ Nota: La placa debe coincidir con un vehículo registrado."""
         self.ventana.withdraw()  # Ocultar la ventana principal
         from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()
-
+"""
 if __name__ == "__main__":
-    EstadoVehiculo()
+    EstadoVehiculo()"""
