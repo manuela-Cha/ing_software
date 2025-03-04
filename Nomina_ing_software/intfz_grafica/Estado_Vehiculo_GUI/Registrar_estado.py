@@ -277,7 +277,7 @@ Nota: La placa debe coincidir con un vehículo registrado."""
     def abrir_ventana_principal(self):
         """Abre la ventana principal y oculta la de vehiculo temporalmente."""
         self.ventana.withdraw()  # Ocultar la ventana principal
-        from Nomina_ing_software.intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
+        from intfz_grafica.Ventana_Principal_GUI.ventana_principal import Ventana_principal
         Ventana_principal()
 
 if __name__ == "__main__":

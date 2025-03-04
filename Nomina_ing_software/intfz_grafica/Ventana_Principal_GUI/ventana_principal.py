@@ -9,6 +9,9 @@ from intfz_grafica.Formar_Grupo_GUI.Formar_grupo import Formar_Grupo_GUI
 from intfz_grafica.Asignar_rutas_GUI.Asignar_rutas import GestorGruposRutasGUI
 from intfz_grafica.Visualizador_Empleados_GUI.Visualizador_empleados import VisualizadorEmpleados
 from intfz_grafica.Visualizador_Vehiculos_GUI.visualizador_de_vehiculos import VisualizadorVehiculos
+from intfz_grafica.Añadir_Admin_GUI.añadir_admin import Añadir_admin
+from intfz_grafica.Visualizador_Rutas_GUI.visualizador_de_rutas import VisualizadorRutas
+from intfz_grafica.Visualizador_Grupos_GUI.visualizador_grupos import VisualizadorEquipos
 
 class Ventana_principal:
     def __init__(self):
@@ -59,6 +62,9 @@ class Ventana_principal:
             ("Registrar estado del vehículo", self.abrir_estado_vehiculo),
             ("Visualizar empleados", self.vizualizar_empleados),
             ("Visualizar vehículos", self.visualizador_vehiculos),
+            ("Visualizar rutas", self.visualizador_rutas),
+            ("Visualizar grupos", self.visualizador_grupos),
+            ("Añadir administrador", self.añadir_admin),
             ("Cerrar", self.cerrar)
         ]
 
@@ -199,10 +205,22 @@ class Ventana_principal:
         self.ventana.withdraw()
         VisualizadorVehiculos.iniciar_aplicacion()
 
+    def añadir_admin(self):
+        self.ventana.withdraw()
+        Añadir_admin()
+
+    def visualizador_rutas(self):
+        self.ventana.withdraw()
+        VisualizadorRutas.iniciar_aplicacion()
+    
+    def visualizador_grupos(self):
+        self.ventana.withdraw()
+        VisualizadorEquipos.iniciar_aplicacion()
+
     def cerrar(self):
         respuesta = messagebox.askyesno(
             "Confirmar cierre",
-            "¿Está seguro que deseas salir del sistema?"
+            "¿Está seguro que desea salir del sistema?"
         )
         if respuesta:
             self.ventana.destroy()

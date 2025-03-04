@@ -489,12 +489,12 @@ class VisualizadorRutas:
                           command=help_window.destroy)
         cerrar.pack(pady=20)
 
-# Función para iniciar la aplicación
-def iniciar_aplicacion():
-    root = tk.Tk()
-    app = VisualizadorRutas(root)
-    root.mainloop()
+    # Función para iniciar la aplicación
+    def iniciar_aplicacion():
+        root = tk.Tk()
+        app = VisualizadorRutas(root)
+        root.mainloop()
 
 # Si este archivo se ejecuta directamente
 if __name__ == "__main__":
-    iniciar_aplicacion()
+    VisualizadorRutas.iniciar_aplicacion()

@@ -13,3 +13,7 @@ wsw 12345* empleado
 098765 12345* empleado
 0987654 12345* empleado
 09876543 12345* empleado
+NuevoAdmin 12345* admin
+1 1 empleado
+2 2 empleado
+3 3 empleado

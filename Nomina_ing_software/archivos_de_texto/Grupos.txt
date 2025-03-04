@@ -25,3 +25,12 @@ Integrantes:
 Vehiculo asignado: 7890
 Estado: Ocupado
 --------------------------------------------------
+
+GRUPO CREADO EN FECHA: 2025-03-04
+Integrantes:
+- 1 1 (CC: 1)
+- 2 2 (CC: 2)
+- 3 3 (CC: 3)
+Vehiculo asignado: 22223333
+Estado: Ocupado
+--------------------------------------------------

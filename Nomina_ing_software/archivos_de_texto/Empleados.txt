@@ -13,3 +13,6 @@ alba chaverra 09876 Ocupado
 lucely chaverra 098765 Disponible
 maria chaverra 0987654 Ocupado
 trinidad chaverra 09876543 Disponible
+1 1 1 Ocupado
+2 2 2 Ocupado
+3 3 3 Ocupado
