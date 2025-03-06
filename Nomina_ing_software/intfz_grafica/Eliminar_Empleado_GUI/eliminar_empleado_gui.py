@@ -7,7 +7,7 @@ class Eliminar_empleado_GUI:
         # Creación de la ventana principal
         self.ventana = tk.Tk()
         self.ventana.title("Eliminar Empleado")
-        self.ventana.geometry("500x450")
+        self.ventana.geometry("500x500")
 
         # Definir colores
         self.color_primary = "#2ECC71"      # Verde principal
@@ -141,7 +141,7 @@ class Eliminar_empleado_GUI:
         """Muestra una ventana de ayuda."""
         help_window = tk.Toplevel(self.ventana)
         help_window.title("Ayuda")
-        help_window.geometry("400x300")
+        help_window.geometry("450x450")
         help_window.configure(bg=self.color_white)
         help_window.transient(self.ventana)
         help_window.grab_set()

@@ -9,7 +9,7 @@ class Carga:
     @classmethod
     def carga_usuarios_existentes(cls):
         try:
-            with open("Nomina_ing_software/archivos_de_texto/Usuarios_y_contras.txt", 'rb') as file:
+            with open("archivos_de_texto/Usuarios_y_contras.txt", 'rb') as file:
                 for linea in file:
                     datos = linea.decode('utf-8').strip().split() 
                     obj = Gestion.cargar_admin(datos[0], datos[1])

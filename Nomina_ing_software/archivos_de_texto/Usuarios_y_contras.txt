@@ -1,4 +1,5 @@
 Manuela 12345* admin
-1000447876 12345* empleado
-1002443876 gestion_rut12 empleado
-43567876 Gestion_123* empleado
+100044641 123* empleado
+1000443641 12345* empleado
+1000443643 123456* empleado
+101023456 Mi_gestion123 empleado

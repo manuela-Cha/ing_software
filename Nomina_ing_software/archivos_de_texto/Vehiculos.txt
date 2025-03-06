@@ -1,1 +1,2 @@
-tpn-600 Ocupado
+tpn-600 Disponible
+hnt-250 No-optimo

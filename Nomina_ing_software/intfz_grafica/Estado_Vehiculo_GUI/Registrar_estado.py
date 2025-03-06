@@ -238,7 +238,7 @@ Nota: La placa debe coincidir con un vehículo registrado."""
 
     def registrar_vehiculo(self):
         """Registra el nuevo estado del vehículo en el archivo."""
-        placa = self.entry_placa.get().strip().upper()
+        placa = self.entry_placa.get().strip()
 
         if not placa:
             messagebox.showwarning("Entrada inválida", "Debe ingresar la placa del vehículo.")
